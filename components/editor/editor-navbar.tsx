@@ -8,6 +8,12 @@ interface EditorNavbarProps {
   onToggleSidebar: () => void;
 }
 
+/**
+ * Renders the editor navigation bar with sidebar controls and branding.
+ *
+ * @param isSidebarOpen - Whether the sidebar is currently open
+ * @param onToggleSidebar - Callback invoked when the sidebar toggle is clicked
+ */
 export function EditorNavbar({ isSidebarOpen, onToggleSidebar }: EditorNavbarProps) {
   return (
     <header className="fixed top-0 left-0 right-0 z-40 flex h-16 items-center justify-between border-b border-border-default bg-bg-surface px-4 text-text-primary">

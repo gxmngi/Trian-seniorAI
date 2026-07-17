@@ -8,6 +8,11 @@ interface EditorLayoutProps {
   children: React.ReactNode;
 }
 
+/**
+ * Provides the editor interface layout with navigation, content, and a toggleable project sidebar.
+ *
+ * @param children - The content rendered in the main editor area
+ */
 export function EditorLayout({ children }: EditorLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 

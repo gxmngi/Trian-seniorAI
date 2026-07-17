@@ -10,6 +10,12 @@ interface ProjectSidebarProps {
   onClose: () => void;
 }
 
+/**
+ * Renders a slide-in sidebar for viewing projects and shared projects.
+ *
+ * @param isOpen - Whether the sidebar is visible.
+ * @param onClose - Callback invoked when the sidebar should close.
+ */
 export function ProjectSidebar({ isOpen, onClose }: ProjectSidebarProps) {
   return (
     <>
