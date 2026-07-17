@@ -5,22 +5,27 @@ import { withAccelerate } from '@prisma/extension-accelerate';
 
 const databaseUrl = process.env.DATABASE_URL || '';
 
-const createPrismaClient = () => {
+// Define a helper function to get the exact type of the extended client
+const createAccelerateClient = () => {
+  return new PrismaClient({ accelerateUrl: '' }).$extends(withAccelerate());
+};
+
+type ExtendedPrismaClient = ReturnType<typeof createAccelerateClient>;
+
+const createPrismaClient = (): ExtendedPrismaClient => {
   if (databaseUrl.startsWith('prisma+postgres://')) {
     return new PrismaClient({
       accelerateUrl: databaseUrl,
-    }).$extends(withAccelerate());
+    }).$extends(withAccelerate()) as unknown as ExtendedPrismaClient;
   } else {
     const pool = new pg.Pool({ connectionString: databaseUrl });
     const adapter = new PrismaPg(pool);
-    return new PrismaClient({ adapter });
+    return new PrismaClient({ adapter }) as unknown as ExtendedPrismaClient;
   }
 };
 
-type PrismaClientInstance = ReturnType<typeof createPrismaClient>;
-
 const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClientInstance | undefined;
+  prisma: ExtendedPrismaClient | undefined;
 };
 
 export const prisma = globalForPrisma.prisma ?? createPrismaClient();
@@ -28,3 +33,4 @@ export const prisma = globalForPrisma.prisma ?? createPrismaClient();
 if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = prisma;
 }
+

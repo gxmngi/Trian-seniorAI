@@ -5,29 +5,22 @@ import { Button } from "@/components/ui/button";
 import { Plus, X, Folder, Share2, Pencil, Trash2, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useProject, Project } from "./project-context";
+import Link from "next/link";
 
 interface ProjectSidebarProps {
   isOpen: boolean;
   onClose: () => void;
+  ownedProjects: Project[];
+  sharedProjects: Project[];
 }
 
-export function ProjectSidebar({ isOpen, onClose }: ProjectSidebarProps) {
+export function ProjectSidebar({ isOpen, onClose, ownedProjects, sharedProjects }: ProjectSidebarProps) {
   const {
-    projects,
     activeProject,
-    setActiveProject,
     openCreateDialog,
     openRenameDialog,
     openDeleteDialog,
   } = useProject();
-
-  const ownedProjects = projects.filter((p) => !p.isShared);
-  const sharedProjects = projects.filter((p) => p.isShared);
-
-  const handleSelectProject = (project: Project) => {
-    setActiveProject(project);
-    onClose(); // Auto-close sidebar on select (especially useful on mobile)
-  };
 
   const renderProjectItem = (project: Project, canModify: boolean) => {
     const isActive = activeProject?.id === project.id;
@@ -37,18 +30,18 @@ export function ProjectSidebar({ isOpen, onClose }: ProjectSidebarProps) {
         className={cn(
           "group flex items-center justify-between rounded-lg p-2 text-sm transition-all duration-150 select-none",
           isActive
-            ? "bg-bg-subtle text-accent-primary border-l-2 border-accent-primary pl-1.5"
-            : "text-text-secondary hover:bg-bg-subtle hover:text-text-primary"
+             ? "bg-bg-subtle text-accent-primary border-l-2 border-accent-primary pl-1.5"
+             : "text-text-secondary hover:bg-bg-subtle hover:text-text-primary"
         )}
       >
-        <button
-          type="button"
+        <Link
+          href={`/editor/${project.id}`}
+          onClick={onClose}
           className="flex flex-1 items-center gap-2.5 overflow-hidden text-left"
-          onClick={() => handleSelectProject(project)}
         >
           <Folder className={cn("h-4 w-4 shrink-0", isActive ? "text-accent-primary" : "text-text-muted")} />
           <span className="truncate font-medium">{project.name}</span>
-        </button>
+        </Link>
 
         {/* Action buttons - show rename/delete only for owned projects, and on hover/focus */}
         {canModify ? (
@@ -57,6 +50,7 @@ export function ProjectSidebar({ isOpen, onClose }: ProjectSidebarProps) {
               variant="ghost"
               size="icon-xs"
               onClick={(e) => {
+                e.preventDefault();
                 e.stopPropagation();
                 openRenameDialog(project);
               }}
@@ -69,6 +63,7 @@ export function ProjectSidebar({ isOpen, onClose }: ProjectSidebarProps) {
               variant="ghost"
               size="icon-xs"
               onClick={(e) => {
+                e.preventDefault();
                 e.stopPropagation();
                 openDeleteDialog(project);
               }}
