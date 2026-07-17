@@ -18,6 +18,12 @@ export const metadata: Metadata = {
   description: "Collaborative design canvas and spec workspace",
 };
 
+/**
+ * Provides the root application layout with fonts, styling, and the editor shell.
+ *
+ * @param children - The page content rendered within the editor layout
+ * @returns The root HTML structure containing the application content
+ */
 export default function RootLayout({
   children,
 }: Readonly<{

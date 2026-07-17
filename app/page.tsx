@@ -1,3 +1,6 @@
+/**
+ * Renders the centered Ghost AI design canvas workspace with a dot-grid background and watermark.
+ */
 export default function Home() {
   return (
     <div className="flex-1 relative flex items-center justify-center">
