@@ -38,7 +38,7 @@ export async function updateProfile(formData: FormData) {
     where: { id: userId },
     data: { name: formData.get('name') as string },
   });
-  revalidateTag(`user-${userId}`);
+  revalidateTag(`user-${userId}`, 'max');
 }
 ```
 
@@ -46,11 +46,15 @@ export async function updateProfile(formData: FormData) {
 
 ```typescript
 const { orgId } = await auth();
+if (!orgId) return <div>Not in an organization</div>;
+
 const getOrgData = unstable_cache(
   () => db.orgData.findMany({ where: { organizationId: orgId } }),
   [`org-${orgId}-data`],
   { revalidate: 300, tags: [`org-${orgId}`] }
 );
+
+const orgData = await getOrgData();
 ```
 
 [Docs](https://nextjs.org/docs/app/building-your-application/caching)

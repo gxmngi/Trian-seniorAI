@@ -5,10 +5,6 @@ change.
 
 ## Current Phase
 
-- Feature 03 (Auth Setup) - Complete
-
-## Current Phase
-
 - Feature 04 (Project Dialogs) - Complete
 
 ## Current Goal

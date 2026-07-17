@@ -119,7 +119,7 @@ import { Show } from '@clerk/nextjs'
 | Symptom | Cause | Fix |
 |---------|-------|-----|
 | `undefined` userId in Server Component | Missing `await` | `await auth()` not `auth()` |
-| Auth not working on API routes | Missing matcher | Add `'/(api|trpc)(.*)'` to `proxy.ts` (Next.js <=15: `middleware.ts`) |
+| Auth not working on API routes | Missing matcher | Add `/(api\|trpc)(.*)` to `proxy.ts` (Next.js <=15: `middleware.ts`) |
 | Cache returns wrong user's data | Missing userId in key | Include `userId` in `unstable_cache` key |
 | Mutations bypass auth | Unprotected Server Action | Check `auth()` at start of action |
 | Wrong HTTP error code | Confused 401/403 | 401 = not signed in, 403 = no permission |
@@ -202,12 +202,15 @@ For standalone API servers that receive Clerk session tokens from the `Authoriza
 ```typescript
 import { verifyToken } from '@clerk/backend'
 
-const token = req.headers.authorization?.replace('Bearer ', '')
+const authorizationHeader = req.headers.authorization
+const match = authorizationHeader?.match(/^Bearer\s+(\S+)$/i)
+const token = match?.[1]
 if (!token) return res.status(401).json({ error: 'No token' })
 
 try {
   const claims = await verifyToken(token, {
     jwtKey: process.env.CLERK_JWT_KEY,
+    authorizedParties: (process.env.CLERK_AUTHORIZED_PARTIES ?? '').split(',').filter(Boolean),
   })
   // claims.sub = userId
 } catch {
@@ -221,12 +224,18 @@ try {
 import jwt from 'jsonwebtoken'
 
 const publicKey = process.env.CLERK_PEM_PUBLIC_KEY!.replace(/\\n/g, '\n')
-const token = req.headers.authorization?.replace('Bearer ', '')
+const authorizationHeader = req.headers.authorization
+const match = authorizationHeader?.match(/^Bearer\s+(\S+)$/i)
+const token = match?.[1]
 if (!token) return res.status(401).json({ error: 'No token' })
+
+const authorizedParties = (process.env.CLERK_AUTHORIZED_PARTIES ?? '').split(',').filter(Boolean)
 
 try {
   const claims = jwt.verify(token, publicKey, { algorithms: ['RS256'] }) as jwt.JwtPayload
-  // Manually check exp and nbf (jsonwebtoken does this automatically, but verify azp if needed)
+  if (!claims.azp || !authorizedParties.includes(claims.azp)) {
+    return res.status(401).json({ error: 'Invalid authorized party' })
+  }
   // claims.sub = userId
 } catch {
   return res.status(401).json({ error: 'Invalid or expired token' })
@@ -234,7 +243,7 @@ try {
 ```
 
 Token sources:
-- **Same-origin requests**: `__session` cookie (Clerk sets this automatically)
+- **These examples only accept `Authorization: Bearer <token>` headers** so the `azp` allowlist can be enforced.
 - **Cross-origin / mobile / API-to-API**: `Authorization: Bearer <token>` header
 
 > **CRITICAL**: Always check `exp` and `nbf` claims. `verifyToken` from `@clerk/backend` handles this automatically; with raw `jsonwebtoken`, set `ignoreExpiration: false` (default) and ensure `clockTolerance` is minimal.

@@ -38,18 +38,21 @@ export function ProjectSidebar({ isOpen, onClose }: ProjectSidebarProps) {
           "group flex items-center justify-between rounded-lg p-2 text-sm transition-all duration-150 select-none",
           isActive
             ? "bg-bg-subtle text-accent-primary border-l-2 border-accent-primary pl-1.5"
-            : "text-text-secondary hover:bg-bg-subtle hover:text-text-primary cursor-pointer"
+            : "text-text-secondary hover:bg-bg-subtle hover:text-text-primary"
         )}
-        onClick={() => handleSelectProject(project)}
       >
-        <div className="flex items-center gap-2.5 overflow-hidden">
+        <button
+          type="button"
+          className="flex flex-1 items-center gap-2.5 overflow-hidden text-left"
+          onClick={() => handleSelectProject(project)}
+        >
           <Folder className={cn("h-4 w-4 shrink-0", isActive ? "text-accent-primary" : "text-text-muted")} />
           <span className="truncate font-medium">{project.name}</span>
-        </div>
+        </button>
 
-        {/* Action buttons - show rename/delete only for owned projects, and on hover */}
+        {/* Action buttons - show rename/delete only for owned projects, and on hover/focus */}
         {canModify ? (
-          <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+          <div className="ml-2 flex items-center gap-1 opacity-100 transition-opacity duration-150 md:opacity-0 md:group-hover:opacity-100 md:group-focus-within:opacity-100">
             <Button
               variant="ghost"
               size="icon-xs"
