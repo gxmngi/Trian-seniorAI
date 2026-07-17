@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Plus, X, Folder, Share2, Pencil, Trash2, ChevronRight } from "lucide-react";
@@ -21,6 +22,15 @@ export function ProjectSidebar({ isOpen, onClose, ownedProjects, sharedProjects 
     openRenameDialog,
     openDeleteDialog,
   } = useProject();
+
+  const [activeTab, setActiveTab] = useState("my-projects");
+
+  // Auto-switch to the correct tab when an active project is loaded or changed
+  useEffect(() => {
+    if (activeProject) {
+      setActiveTab(activeProject.isShared ? "shared" : "my-projects");
+    }
+  }, [activeProject]);
 
   const renderProjectItem = (project: Project, canModify: boolean) => {
     const isActive = activeProject?.id === project.id;
@@ -113,7 +123,7 @@ export function ProjectSidebar({ isOpen, onClose, ownedProjects, sharedProjects 
 
         {/* Tabs area */}
         <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
-          <Tabs defaultValue="my-projects" className="flex flex-col h-full">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="flex flex-col h-full">
             <TabsList className="grid w-full grid-cols-2 bg-bg-subtle p-1 border border-border-subtle rounded-lg">
               <TabsTrigger value="my-projects" className="text-xs py-1 rounded-md">My Projects</TabsTrigger>
               <TabsTrigger value="shared" className="text-xs py-1 rounded-md">Shared</TabsTrigger>

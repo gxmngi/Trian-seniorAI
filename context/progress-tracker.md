@@ -5,7 +5,7 @@ change.
 
 ## Current Phase
 
-- Feature 07 (Wire Editor Home) - Complete
+- Feature 08 (Editor Workspace Shell) - Complete
 
 ## Current Goal
 
@@ -20,6 +20,7 @@ change.
 - Feature 05: Prisma Setup (Configured Project and ProjectCollaborator models in prisma/models/project.prisma, built cached singleton Prisma client in lib/prisma.ts branching for pg direct adapter or Accelerate, applied initial migration to database, and generated Prisma client under app/generated/prisma)
 - Feature 06: Project APIs (Created backend REST endpoints for GET /api/projects, POST /api/projects, PATCH /api/projects/[projectId], and DELETE /api/projects/[projectId] with Clerk-authenticated owner checks and 401/403 status code handlings)
 - Feature 07: Wire Editor Home (Wired editor home sidebar, layout, page, and project provider to real database projects fetched server-side, implemented useProjectActions hook for mutations like create with custom id/roomId alignment, rename, and delete, and updated sidebar list item components as next/link)
+- Feature 08: Editor Workspace Shell (Built `/editor/[roomId]` workspace server page with access verification helpers in `lib/project-access.ts` and `AccessDenied` view, updated top navbar with project title and Share/AI triggers, linked AI sidebar visibility state globally through ProjectContext, and loaded workspace client layout with default tab auto-selection in sidebar)
 
 ## In Progress
 

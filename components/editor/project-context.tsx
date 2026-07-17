@@ -12,6 +12,8 @@ interface ProjectContextType {
   dialogType: DialogType;
   dialogTarget: Project | null;
   isLoading: boolean;
+  isAiSidebarOpen: boolean;
+  setIsAiSidebarOpen: (open: boolean) => void;
   openCreateDialog: () => void;
   openRenameDialog: (project: Project) => void;
   openDeleteDialog: (project: Project) => void;
@@ -32,6 +34,7 @@ export function ProjectProvider({
 }) {
   const [projects, setProjects] = useState<Project[]>(initialProjects);
   const [activeProject, setActiveProject] = useState<Project | null>(null);
+  const [isAiSidebarOpen, setIsAiSidebarOpen] = useState(false);
 
   // Sync projects state if initialProjects changes
   useEffect(() => {
@@ -46,6 +49,8 @@ export function ProjectProvider({
         projects,
         activeProject,
         setActiveProject,
+        isAiSidebarOpen,
+        setIsAiSidebarOpen,
         ...actions,
       }}
     >
