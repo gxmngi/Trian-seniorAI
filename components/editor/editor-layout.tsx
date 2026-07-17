@@ -3,18 +3,22 @@
 import React, { useState } from "react";
 import { EditorNavbar } from "./editor-navbar";
 import { ProjectSidebar } from "./project-sidebar";
-import { ProjectProvider } from "./project-context";
+import { ProjectProvider, Project } from "./project-context";
 import { ProjectDialogs } from "./project-dialogs";
 
 interface EditorLayoutProps {
   children: React.ReactNode;
+  ownedProjects: Project[];
+  sharedProjects: Project[];
 }
 
-export function EditorLayout({ children }: EditorLayoutProps) {
+export function EditorLayout({ children, ownedProjects, sharedProjects }: EditorLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  const allInitialProjects = [...ownedProjects, ...sharedProjects];
+
   return (
-    <ProjectProvider>
+    <ProjectProvider initialProjects={allInitialProjects}>
       <div className="min-h-screen bg-bg-base text-text-primary flex flex-col">
         {/* Top Navbar */}
         <EditorNavbar
@@ -30,6 +34,8 @@ export function EditorLayout({ children }: EditorLayoutProps) {
           <ProjectSidebar
             isOpen={isSidebarOpen}
             onClose={() => setIsSidebarOpen(false)}
+            ownedProjects={ownedProjects}
+            sharedProjects={sharedProjects}
           />
         </div>
       </div>

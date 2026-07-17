@@ -50,7 +50,6 @@ export function ProjectDialogs() {
   // Autofocus handling for rename dialog
   useEffect(() => {
     if (dialogType === "rename" && inputRef.current) {
-      // Small timeout to ensure DOM is fully ready
       const timer = setTimeout(() => {
         inputRef.current?.focus();
         inputRef.current?.select();
@@ -106,9 +105,9 @@ export function ProjectDialogs() {
 
             {name.trim() && (
               <div className="rounded-lg bg-bg-subtle p-3 border border-border-subtle text-xs space-y-1">
-                <span className="font-medium text-text-secondary block">Workspace URL slug preview:</span>
+                <span className="font-medium text-text-secondary block">Workspace URL ID preview:</span>
                 <span className="text-accent-primary font-mono select-all">
-                  /editor/{generateSlugPreview(name)}
+                  /editor/{generateSlugPreview(name)}-xxxx
                 </span>
               </div>
             )}
@@ -142,7 +141,7 @@ export function ProjectDialogs() {
           <DialogHeader>
             <DialogTitle className="text-lg font-semibold text-text-primary">Rename Project</DialogTitle>
             <DialogDescription className="text-xs text-text-secondary">
-              Change the name of <span className="font-semibold text-text-primary">"{dialogTarget?.name}"</span>. This will update the slug URL automatically.
+              Change the name of <span className="font-semibold text-text-primary">"{dialogTarget?.name}"</span>. This will update the project name immediately.
             </DialogDescription>
           </DialogHeader>
 
@@ -162,15 +161,6 @@ export function ProjectDialogs() {
                 required
               />
             </div>
-
-            {name.trim() && dialogTarget && generateSlugPreview(name) !== dialogTarget.slug && (
-              <div className="rounded-lg bg-bg-subtle p-3 border border-border-subtle text-xs space-y-1">
-                <span className="font-medium text-text-secondary block">New URL slug preview:</span>
-                <span className="text-accent-primary font-mono select-all">
-                  /editor/{generateSlugPreview(name)}
-                </span>
-              </div>
-            )}
 
             <DialogFooter className="pt-2">
               <Button
