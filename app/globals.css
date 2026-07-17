@@ -1,11 +1,12 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "../node_modules/@clerk/ui/dist/themes/shadcn.css";
 
 @theme inline {
-  --font-heading: var(--font-sans);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
+  --font-heading: var(--font-geist-sans);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
   
   /* shadcn UI base tokens mapping */
   --color-background: var(--background);
@@ -122,4 +123,150 @@
   html {
     @apply font-sans;
   }
+}
+
+/* ==========================================
+   Clerk UI Overrides for Dark-Only Theme
+   ========================================== */
+
+/* Force custom property overrides on Clerk roots */
+.cl-rootBox, .cl-card, .cl-userButtonPopoverCard {
+  --cl-color-background: var(--bg-surface) !important;
+  --cl-color-text: var(--text-primary) !important;
+  --cl-color-text-secondary: var(--text-secondary) !important;
+  --cl-color-primary: var(--accent-primary) !important;
+  --cl-color-border: var(--border-default) !important;
+  --cl-color-input-background: var(--bg-subtle) !important;
+  --cl-color-input-text: var(--text-primary) !important;
+}
+
+/* Card & Popover base structure */
+.cl-card, .cl-userButtonPopoverCard {
+  background-color: var(--bg-surface) !important;
+  border: 1px solid var(--border-default) !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Broad fallbacks to prevent dark text on dark background in Clerk containers */
+.cl-rootBox *, .cl-userButtonPopoverCard * {
+  color: var(--text-primary);
+  font-family: var(--font-geist-sans), sans-serif !important;
+}
+
+/* Specific text overrides for headers */
+.cl-headerTitle {
+  color: var(--text-primary) !important;
+}
+
+.cl-headerSubtitle, .cl-dividerText {
+  color: var(--text-secondary) !important;
+}
+
+/* Form fields */
+.cl-formFieldLabel {
+  color: var(--text-secondary) !important;
+}
+
+.cl-formFieldInput {
+  background-color: var(--bg-subtle) !important;
+  border: 1px solid var(--border-subtle) !important;
+  color: var(--text-primary) !important;
+}
+
+.cl-formFieldInput:focus {
+  border-color: var(--accent-primary) !important;
+}
+
+.cl-formFieldInput::placeholder {
+  color: var(--text-faint) !important;
+}
+
+/* Social Buttons */
+.cl-socialButtonsBlockButton {
+  background-color: var(--bg-subtle) !important;
+  border: 1px solid var(--border-default) !important;
+  color: var(--text-primary) !important;
+  transition: background-color 0.2s ease !important;
+}
+
+.cl-socialButtonsBlockButton:hover {
+  background-color: var(--bg-surface) !important;
+}
+
+.cl-socialButtonsBlockButtonText {
+  color: var(--text-primary) !important;
+}
+
+/* Primary Action Buttons */
+.cl-formButtonPrimary {
+  background-color: var(--accent-primary) !important;
+  color: var(--bg-base) !important;
+  transition: opacity 0.2s ease !important;
+}
+
+.cl-formButtonPrimary * {
+  color: var(--bg-base) !important;
+}
+
+.cl-formButtonPrimary:hover {
+  opacity: 0.9 !important;
+}
+
+/* Popover user info elements */
+.cl-userPreviewMainIdentifier,
+.cl-userButtonPopoverMainIdentifier {
+  color: var(--text-primary) !important;
+  font-weight: 500 !important;
+}
+
+.cl-userPreviewSecondaryIdentifier,
+.cl-userButtonPopoverSecondaryIdentifier {
+  color: var(--text-secondary) !important;
+}
+
+/* Popover Actions / Menu Items */
+.cl-userButtonPopoverActionButton {
+  background-color: transparent !important;
+  transition: background-color 0.15s ease !important;
+}
+
+.cl-userButtonPopoverActionButton:hover {
+  background-color: var(--bg-subtle) !important;
+}
+
+.cl-userButtonPopoverActionButtonText {
+  color: var(--text-primary) !important;
+}
+
+.cl-userButtonPopoverActionButtonIcon,
+.cl-userButtonPopoverCustomMenuItemIcon {
+  color: var(--text-secondary) !important;
+}
+
+/* Footer elements */
+.cl-footerActionText {
+  color: var(--text-secondary) !important;
+}
+
+.cl-footerActionLink {
+  color: var(--accent-primary) !important;
+}
+
+.cl-footerActionLink:hover {
+  text-decoration: underline !important;
+}
+
+.cl-userButtonPopoverFooter {
+  border-top: 1px solid var(--border-subtle) !important;
+  background-color: var(--bg-subtle) !important;
+}
+
+.cl-userButtonPopoverFooter *,
+.cl-userButtonPopoverFooter span,
+.cl-userButtonPopoverFooter a {
+  color: var(--text-muted) !important;
+}
+
+.cl-userButtonPopoverFooter a:hover {
+  color: var(--text-primary) !important;
 }
