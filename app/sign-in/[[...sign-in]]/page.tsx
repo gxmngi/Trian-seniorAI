@@ -8,7 +8,7 @@ export default function SignInPage() {
       <section className="hidden lg:flex flex-col justify-between bg-bg-surface p-16 border-r border-border-default select-none">
         {/* Top Header */}
         <div className="flex items-center gap-3">
-          <div className="h-6 w-6 rounded bg-[#00c8d4]" />
+          <div className="h-6 w-6 rounded bg-accent-primary" />
           <span className="font-semibold text-xl text-text-primary tracking-tight">
             Ghost AI
           </span>
@@ -28,7 +28,7 @@ export default function SignInPage() {
           <div className="space-y-6 pt-2">
             {/* Feature 1 */}
             <div className="flex items-start gap-4">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#00c8d4]/20 bg-[#00c8d4]/5 text-[#00c8d4]">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-accent-primary/20 bg-accent-primary/5 text-accent-primary">
                 <Sparkles className="h-5 w-5" />
               </div>
               <div className="space-y-1">
@@ -41,7 +41,7 @@ export default function SignInPage() {
 
             {/* Feature 2 */}
             <div className="flex items-start gap-4">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#00c8d4]/20 bg-[#00c8d4]/5 text-[#00c8d4]">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-accent-primary/20 bg-accent-primary/5 text-accent-primary">
                 <Share2 className="h-5 w-5" />
               </div>
               <div className="space-y-1">
@@ -54,7 +54,7 @@ export default function SignInPage() {
 
             {/* Feature 3 */}
             <div className="flex items-start gap-4">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-[#00c8d4]/20 bg-[#00c8d4]/5 text-[#00c8d4]">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-accent-primary/20 bg-accent-primary/5 text-accent-primary">
                 <FileText className="h-5 w-5" />
               </div>
               <div className="space-y-1">

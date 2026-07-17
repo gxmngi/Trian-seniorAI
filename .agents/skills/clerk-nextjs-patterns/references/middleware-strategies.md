@@ -7,16 +7,21 @@
 Protect specific routes, allow everything else:
 
 ```typescript
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
-
-const isProtectedRoute = createRouteMatcher([
-  '/dashboard(.*)',
-  '/settings(.*)',
-  '/api/private(.*)',
-]);
+import { clerkMiddleware } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
 
 export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) await auth.protect();
+  const { pathname } = req.nextUrl;
+
+  if (
+    pathname.startsWith('/dashboard') ||
+    pathname.startsWith('/settings') ||
+    pathname.startsWith('/api/private')
+  ) {
+    await auth.protect();
+  }
+
+  return NextResponse.next();
 });
 
 export const config = {
@@ -32,23 +37,20 @@ export const config = {
 Block everything, allow specific public routes:
 
 ```typescript
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
-
-const isPublicRoute = createRouteMatcher([
-  '/',
-  '/sign-in(.*)',
-  '/sign-up(.*)',
-  '/api/public(.*)',
-]);
+import { clerkMiddleware } from '@clerk/nextjs/server';
 
 export default clerkMiddleware(async (auth, req) => {
-  if (!isPublicRoute(req)) await auth.protect();
+  const { pathname } = req.nextUrl;
+
+  if (!['/', '/sign-in', '/sign-up', '/api/public'].some((route) => pathname === route || pathname.startsWith(`${route}/`))) {
+    await auth.protect();
+  }
 });
 ```
 
 ## Permission-Gated Routes
 
-For B2B apps where some routes require a specific permission or role, pass a callback to `auth.protect()`. Clerk returns a 404 if the check fails:
+For B2B apps where some routes require a specific permission or role, pass a callback to `auth.protect()`. Clerk returns a 404 if the check fails. The matcher-based examples below are legacy; prefer the pathname-based `auth.protect()` pattern shown above for new code.
 
 ```typescript
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
@@ -95,6 +97,8 @@ Token types: `'session_token'` (default, browser sessions), `'oauth_token'`, `'a
 When session tasks are enabled (e.g., forced password reset, MFA setup), users may have a `pending` session status. You can handle this in middleware:
 
 ```typescript
+import { NextResponse } from 'next/server';
+
 export default clerkMiddleware(async (auth, req) => {
   const { sessionStatus } = await auth();
 

@@ -81,7 +81,7 @@ export default async function ProfilePage() {
 'use client';
 import { useUser } from '@clerk/nextjs';
 
-export function ProfileForm({ initialData }) {
+export function ProfileForm({ initialData }: { initialData: { firstName: string | null } }) {
   const { user } = useUser();
   return <form>...</form>;
 }
