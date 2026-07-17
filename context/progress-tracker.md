@@ -5,15 +5,15 @@ change.
 
 ## Current Phase
 
-- [e.g. Not started / In progress / Complete]
+- Feature 01 (Design System) - Complete
 
 ## Current Goal
 
-- [What you are building right now]
+- Feature 02: Editor Chrome
 
 ## Completed
 
-- None yet.
+- Feature 01: Design System (shadcn/ui configured for Tailwind v4, dark-only theme tokens in globals.css, lucide-react installed, lib/utils.ts cn() helper in place, components/ui/ added with Button, Card, Dialog, Input, Tabs, Textarea, and ScrollArea)
 
 ## In Progress
 
@@ -21,7 +21,7 @@ change.
 
 ## Next Up
 
-- [First unit to build]
+- Feature 02 (Editor Chrome)
 
 ## Open Questions
 
