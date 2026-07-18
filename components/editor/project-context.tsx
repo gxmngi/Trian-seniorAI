@@ -17,6 +17,7 @@ interface ProjectContextType {
   openCreateDialog: () => void;
   openRenameDialog: (project: Project) => void;
   openDeleteDialog: (project: Project) => void;
+  openShareDialog: (project: Project) => void;
   closeDialog: () => void;
   createProject: (name: string) => Promise<void>;
   renameProject: (id: string, newName: string) => Promise<void>;

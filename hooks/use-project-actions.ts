@@ -8,7 +8,7 @@ export interface Project {
   isShared: boolean;
 }
 
-export type DialogType = 'create' | 'rename' | 'delete' | null;
+export type DialogType = 'create' | 'rename' | 'delete' | 'share' | null;
 
 export function useProjectActions(onSuccess?: () => void) {
   const router = useRouter();
@@ -29,6 +29,11 @@ export function useProjectActions(onSuccess?: () => void) {
 
   const openDeleteDialog = (project: Project) => {
     setDialogType('delete');
+    setDialogTarget(project);
+  };
+
+  const openShareDialog = (project: Project) => {
+    setDialogType('share');
     setDialogTarget(project);
   };
 
@@ -131,6 +136,7 @@ export function useProjectActions(onSuccess?: () => void) {
     openCreateDialog,
     openRenameDialog,
     openDeleteDialog,
+    openShareDialog,
     closeDialog,
     createProject,
     renameProject,

@@ -5,7 +5,7 @@ change.
 
 ## Current Phase
 
-- Feature 08 (Editor Workspace Shell) - Complete
+- Feature 09 (Share Dialog) - Complete
 
 ## Current Goal
 
@@ -21,6 +21,7 @@ change.
 - Feature 06: Project APIs (Created backend REST endpoints for GET /api/projects, POST /api/projects, PATCH /api/projects/[projectId], and DELETE /api/projects/[projectId] with Clerk-authenticated owner checks and 401/403 status code handlings)
 - Feature 07: Wire Editor Home (Wired editor home sidebar, layout, page, and project provider to real database projects fetched server-side, implemented useProjectActions hook for mutations like create with custom id/roomId alignment, rename, and delete, and updated sidebar list item components as next/link)
 - Feature 08: Editor Workspace Shell (Built `/editor/[roomId]` workspace server page with access verification helpers in `lib/project-access.ts` and `AccessDenied` view, updated top navbar with project title and Share/AI triggers, linked AI sidebar visibility state globally through ProjectContext, and loaded workspace client layout with default tab auto-selection in sidebar)
+- Feature 09: Share Dialog (Added backend endpoints for listing/inviting/removing collaborators, integrated with Clerk Backend API to enrich emails with display names and avatars, implemented custom glassmorphism style Dialog with clipboard link sharing, owner-only invite/remove permissions, and read-only views for collaborators)
 
 ## In Progress
 
