@@ -270,3 +270,17 @@
 .cl-userButtonPopoverFooter a:hover {
   color: var(--text-primary) !important;
 }
+
+/* React Flow Visual Fixes - flush transparent infinite canvas */
+.react-flow {
+  background-color: transparent !important;
+}
+
+.react-flow__viewport,
+.react-flow__renderer,
+.react-flow__pane {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}

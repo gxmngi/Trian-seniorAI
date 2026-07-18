@@ -5,6 +5,9 @@ import { useProject, Project } from "./project-context";
 import { Button } from "@/components/ui/button";
 import { Sparkles, X } from "lucide-react";
 
+import { CanvasRoom } from "./canvas/canvas-room";
+import { CanvasEditor } from "./canvas/canvas-editor";
+
 interface EditorWorkspaceClientProps {
   project: Project;
 }
@@ -21,30 +24,17 @@ export function EditorWorkspaceClient({ project }: EditorWorkspaceClientProps) {
   }, [project, setActiveProject]);
 
   return (
-    <div className="flex-1 flex overflow-hidden">
+    <div className="flex-1 flex overflow-hidden relative">
       {/* Central canvas area */}
-      <div className="flex-1 bg-bg-base relative flex items-center justify-center overflow-hidden">
-        {/* Canvas background dot grid style */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--border-default)_1px,transparent_1px)] [background-size:24px_24px] opacity-40 pointer-events-none" />
-
-        <div className="z-10 text-center select-none pointer-events-none space-y-4 px-6">
-          <h2 className="text-xl font-semibold text-text-primary tracking-tight">
-            Architecture Design Canvas
-          </h2>
-          <p className="text-text-secondary text-sm max-w-sm mx-auto leading-relaxed">
-            Interactive node editor placeholder. Canvas logic, shapes, and edge routing will be loaded here.
-          </p>
-          <div className="pt-2">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-medium bg-bg-subtle border border-border-subtle text-accent-primary">
-              Room ID: {project.roomId}
-            </span>
-          </div>
-        </div>
+      <div className="flex-1 bg-bg-base relative flex overflow-hidden">
+        <CanvasRoom roomId={project.roomId}>
+          <CanvasEditor />
+        </CanvasRoom>
       </div>
 
       {/* Right AI Sidebar placeholder */}
       {isAiSidebarOpen && (
-        <aside className="w-80 border-l border-border-default bg-bg-surface flex flex-col animate-in slide-in-from-right duration-200">
+        <aside className="absolute top-0 bottom-0 right-0 z-30 w-80 border-l border-border-default bg-bg-surface/95 backdrop-blur-sm flex flex-col shadow-2xl animate-in slide-in-from-right duration-200">
           <div className="p-4 border-b border-border-subtle flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Sparkles className="h-4 w-4 text-accent-ai" />

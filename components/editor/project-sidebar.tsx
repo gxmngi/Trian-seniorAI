@@ -103,8 +103,8 @@ export function ProjectSidebar({ isOpen, onClose, ownedProjects, sharedProjects 
       {/* Sidebar container */}
       <aside
         className={cn(
-          "fixed top-16 bottom-0 left-0 z-30 flex w-80 flex-col border-r border-border-default bg-bg-surface text-text-primary transition-transform duration-300 ease-in-out",
-          isOpen ? "translate-x-0" : "-translate-x-full"
+          "fixed top-16 bottom-0 left-0 z-30 flex w-80 flex-col border-r border-border-default bg-bg-surface/95 backdrop-blur-sm text-text-primary transition-transform duration-300 ease-in-out",
+          isOpen ? "translate-x-0 shadow-2xl" : "-translate-x-[calc(100%+10px)] shadow-none"
         )}
       >
         {/* Header */}

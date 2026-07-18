@@ -17,7 +17,7 @@ export function EditorNavbar({
   onToggleSidebar,
   onOpenShare,
 }: EditorNavbarProps) {
-  const { activeProject, isAiSidebarOpen, setIsAiSidebarOpen } = useProject();
+  const { activeProject, isAiSidebarOpen, setIsAiSidebarOpen, openShareDialog } = useProject();
   const projectName = activeProject?.name;
 
   return (
@@ -62,7 +62,13 @@ export function EditorNavbar({
               variant="ghost"
               size="sm"
               className="text-text-secondary hover:text-text-primary hover:bg-bg-subtle gap-1.5 h-8.5 rounded-xl px-3 cursor-pointer"
-              onClick={onOpenShare}
+              onClick={() => {
+                if (onOpenShare) {
+                  onOpenShare();
+                } else if (activeProject) {
+                  openShareDialog(activeProject);
+                }
+              }}
             >
               <Share2 className="h-4 w-4" />
               <span className="text-xs font-semibold hidden xs:inline">Share</span>
