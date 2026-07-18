@@ -25,17 +25,19 @@ export interface ColorPair {
   bg: string;
   border: string;
   text: string;
+  fill: string;
+  stroke: string;
 }
 
 export const NODE_COLORS: ColorPair[] = [
-  { name: "gray", bg: "bg-bg-subtle", border: "border-border-default", text: "text-text-primary" },
-  { name: "red", bg: "bg-red-500/10", border: "border-red-500/30", text: "text-red-400" },
-  { name: "orange", bg: "bg-orange-500/10", border: "border-orange-500/30", text: "text-orange-400" },
-  { name: "yellow", bg: "bg-yellow-500/10", border: "border-yellow-500/30", text: "text-yellow-400" },
-  { name: "green", bg: "bg-green-500/10", border: "border-green-500/30", text: "text-green-400" },
-  { name: "teal", bg: "bg-teal-500/10", border: "border-teal-500/30", text: "text-teal-400" },
-  { name: "blue", bg: "bg-blue-500/10", border: "border-blue-500/30", text: "text-blue-400" },
-  { name: "purple", bg: "bg-purple-500/10", border: "border-purple-500/30", text: "text-purple-400" },
+  { name: "gray", bg: "bg-[#18181b] backdrop-blur-xs", border: "border-zinc-800", text: "text-zinc-200", fill: "fill-[#18181b]", stroke: "stroke-zinc-800" },
+  { name: "blue", bg: "bg-[#0c1a30] backdrop-blur-xs", border: "border-[#1e3d75]/70", text: "text-blue-400", fill: "fill-[#0c1a30]", stroke: "stroke-[#1e3d75]/70" },
+  { name: "purple", bg: "bg-[#18122b] backdrop-blur-xs", border: "border-[#3f2375]/70", text: "text-purple-400", fill: "fill-[#18122b]", stroke: "stroke-[#3f2375]/70" },
+  { name: "orange", bg: "bg-[#241508] backdrop-blur-xs", border: "border-[#6b350a]/70", text: "text-orange-400", fill: "fill-[#241508]", stroke: "stroke-[#6b350a]/70" },
+  { name: "red", bg: "bg-[#280c0c] backdrop-blur-xs", border: "border-[#7a1818]/70", text: "text-red-400", fill: "fill-[#280c0c]", stroke: "stroke-[#7a1818]/70" },
+  { name: "yellow", bg: "bg-[#280c20] backdrop-blur-xs", border: "border-[#751252]/70", text: "text-pink-400", fill: "fill-[#280c20]", stroke: "stroke-[#751252]/70" },
+  { name: "green", bg: "bg-[#061c12] backdrop-blur-xs", border: "border-[#114f30]/70", text: "text-green-400", fill: "fill-[#061c12]", stroke: "stroke-[#114f30]/70" },
+  { name: "teal", bg: "bg-[#042222] backdrop-blur-xs", border: "border-[#0e5c54]/70", text: "text-teal-400", fill: "fill-[#042222]", stroke: "stroke-[#0e5c54]/70" },
 ];
 
 export interface CanvasNodeData extends Record<string, unknown> {

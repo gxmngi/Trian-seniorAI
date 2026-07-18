@@ -72,6 +72,19 @@ export function ShapePanel() {
     e.dataTransfer.setData("application/reactflow", serialized);
     e.dataTransfer.setData("text/plain", serialized);
     e.dataTransfer.effectAllowed = "move";
+
+    if (typeof window !== "undefined") {
+      (window as any).__draggedShape = payload;
+    }
+  };
+
+  const handleDragEnd = () => {
+    if (typeof window !== "undefined") {
+      (window as any).__draggedShape = null;
+      if (typeof (window as any).__onDragEnd === "function") {
+        (window as any).__onDragEnd();
+      }
+    }
   };
 
   return (
@@ -81,6 +94,7 @@ export function ShapePanel() {
           key={shape.type}
           draggable
           onDragStart={(e) => handleDragStart(e, shape.type)}
+          onDragEnd={handleDragEnd}
           className="group relative flex items-center justify-center h-9 w-9 rounded-full text-text-secondary hover:text-text-primary hover:bg-bg-subtle active:scale-90 transition-all duration-150 cursor-grab active:cursor-grabbing"
           title={shape.label}
         >
