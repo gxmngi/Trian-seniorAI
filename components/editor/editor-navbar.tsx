@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { PanelLeftClose, PanelLeftOpen, Share2, Sparkles } from "lucide-react";
+import { PanelLeftClose, PanelLeftOpen, Share2, Sparkles, LayoutTemplate } from "lucide-react";
 import { SignInButton, SignUpButton, Show, UserButton } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
 import { useProject } from "./project-context";
@@ -17,7 +17,7 @@ export function EditorNavbar({
   onToggleSidebar,
   onOpenShare,
 }: EditorNavbarProps) {
-  const { activeProject, isAiSidebarOpen, setIsAiSidebarOpen, openShareDialog } = useProject();
+  const { activeProject, isAiSidebarOpen, setIsAiSidebarOpen, openShareDialog, setIsTemplatesModalOpen } = useProject();
   const projectName = activeProject?.name;
 
   return (
@@ -58,6 +58,15 @@ export function EditorNavbar({
       <div className="flex items-center gap-1.5 shrink-0">
         {projectName && (
           <>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-text-secondary hover:text-text-primary hover:bg-bg-subtle gap-1.5 h-8.5 rounded-xl px-3 cursor-pointer"
+              onClick={() => setIsTemplatesModalOpen(true)}
+            >
+              <LayoutTemplate className="h-4 w-4" />
+              <span className="text-xs font-semibold hidden xs:inline">Templates</span>
+            </Button>
             <Button
               variant="ghost"
               size="sm"
