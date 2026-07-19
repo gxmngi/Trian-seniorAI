@@ -59,7 +59,21 @@ export function CanvasRoom({ roomId, children }: CanvasRoomProps) {
 
   return (
     <ErrorBoundary fallback={errorFallback}>
-      <LiveblocksProvider authEndpoint="/api/liveblocks-auth">
+      <LiveblocksProvider
+        authEndpoint="/api/liveblocks-auth"
+        resolveUsers={async ({ userIds }) => {
+          return userIds.map((userId) => {
+            if (userId === "ai-agent") {
+              return {
+                name: "Ghost AI",
+                avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=ghost",
+                color: "#10b981",
+              };
+            }
+            return undefined;
+          });
+        }}
+      >
         <RoomProvider
           id={roomId}
           initialPresence={{

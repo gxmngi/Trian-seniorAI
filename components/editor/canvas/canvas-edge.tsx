@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { EdgeProps, getSmoothStepPath, EdgeLabelRenderer } from "@xyflow/react";
+import { EdgeProps, getSmoothStepPath, EdgeLabelRenderer, Position } from "@xyflow/react";
 import { useMutation } from "@liveblocks/react";
 
 export function CanvasEdgeComponent({
@@ -8,8 +8,8 @@ export function CanvasEdgeComponent({
   sourceY,
   targetX,
   targetY,
-  sourcePosition,
-  targetPosition,
+  sourcePosition = Position.Right,
+  targetPosition = Position.Left,
   selected,
   label,
 }: EdgeProps) {

@@ -24,14 +24,14 @@ export function EditorWorkspaceClient({ project }: EditorWorkspaceClientProps) {
   return (
     <div className="flex-1 flex overflow-hidden relative">
       {/* Central canvas area */}
-      <div className="flex-1 bg-bg-base relative flex overflow-hidden">
-        <CanvasRoom roomId={project.roomId}>
+      <CanvasRoom roomId={project.roomId}>
+        <div className="flex-1 bg-bg-base relative flex overflow-hidden">
           <CanvasEditor />
-        </CanvasRoom>
-      </div>
+        </div>
 
-      {/* Floating Right AI Chat/Architect Sidebar */}
-      <AiSidebar isOpen={isAiSidebarOpen} onClose={() => setIsAiSidebarOpen(false)} />
+        {/* Floating Right AI Chat/Architect Sidebar */}
+        <AiSidebar isOpen={isAiSidebarOpen} onClose={() => setIsAiSidebarOpen(false)} />
+      </CanvasRoom>
     </div>
   );
 }

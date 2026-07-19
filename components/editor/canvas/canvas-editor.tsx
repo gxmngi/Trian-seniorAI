@@ -12,7 +12,7 @@ import {
 import { useLiveblocksFlow } from "@liveblocks/react-flow";
 import { useMutation, useHistory, useMyPresence, useOthers } from "@liveblocks/react";
 import { LiveObject } from "@liveblocks/client";
-import { Minus, Plus, Undo2, Redo2, MousePointer, Hand } from "lucide-react";
+import { Minus, Plus, Undo2, Redo2, MousePointer, Hand, Loader2 } from "lucide-react";
 import { createPortal } from "react-dom";
 import { useUser } from "@clerk/nextjs";
 import { NODE_COLORS } from "@/types/canvas";
@@ -49,8 +49,8 @@ function PresenceAvatars() {
 
   if (!mounted) return null;
 
-  // Filter others to exclude current Clerk user
-  const collaborators = others.filter((other) => other.id !== user?.id);
+  // Filter others to exclude current Clerk user and the AI agent
+  const collaborators = others.filter((other) => other.id !== user?.id && other.id !== "ai-agent");
 
   const portalTarget = typeof document !== "undefined" ? document.getElementById("navbar-presence-portal") : null;
   if (!portalTarget) return null;
@@ -110,12 +110,13 @@ function LiveCursors() {
 
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden z-50">
-      {others.map(({ connectionId, presence, info }) => {
+      {others.map(({ id, connectionId, presence, info }) => {
         if (!presence || !presence.cursor) return null;
 
         const cursor = presence.cursor;
-        const color = info?.color || "#7c3aed";
-        const name = info?.name || "Collaborator";
+        const isAi = id === "ai-agent";
+        const color = isAi ? "#6457f9" : (info?.color || "#7c3aed");
+        const name = isAi ? "Ghost AI" : (info?.name || "Collaborator");
 
         // Convert flow to screen coordinates relative to the flow pane
         const sx = cursor.x * zoom + x;
@@ -148,12 +149,21 @@ function LiveCursors() {
 
             {/* Name Badge */}
             <div
-              className="ml-4 mt-1 px-2 py-0.5 rounded text-[10px] font-bold text-zinc-950 whitespace-nowrap shadow-md"
+              className={cn(
+                "ml-4 mt-1 px-2 py-0.5 rounded text-[10px] font-bold whitespace-nowrap shadow-md flex items-center gap-1.5",
+                isAi ? "text-zinc-100" : "text-zinc-950"
+              )}
               style={{
                 backgroundColor: color,
               }}
             >
-              {name}
+              <span>
+                {name}
+                {isAi && presence.statusMessage ? ` (${presence.statusMessage.replace("Ghost AI: ", "")})` : ""}
+              </span>
+              {(presence?.thinking || presence?.isThinking) && (
+                <Loader2 className={cn("h-2.5 w-2.5 animate-spin", isAi ? "text-zinc-100" : "text-zinc-950")} />
+              )}
             </div>
           </div>
         );
