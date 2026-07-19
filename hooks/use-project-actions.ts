@@ -6,6 +6,7 @@ export interface Project {
   name: string;
   roomId: string;
   isShared: boolean;
+  canvasJsonPath?: string | null;
 }
 
 export type DialogType = 'create' | 'rename' | 'delete' | 'share' | null;

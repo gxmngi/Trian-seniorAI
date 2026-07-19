@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useProjectActions, DialogType, Project } from "@/hooks/use-project-actions";
+import { SaveStatus } from "@/hooks/use-autosave";
 
 export type { DialogType, Project };
 
@@ -16,6 +17,10 @@ interface ProjectContextType {
   setIsAiSidebarOpen: (open: boolean) => void;
   isTemplatesModalOpen: boolean;
   setIsTemplatesModalOpen: (open: boolean) => void;
+  saveStatus: SaveStatus;
+  setSaveStatus: (status: SaveStatus) => void;
+  registerManualSave: (saveFn: () => Promise<boolean>) => void;
+  triggerManualSave: () => Promise<boolean>;
   openCreateDialog: () => void;
   openRenameDialog: (project: Project) => void;
   openDeleteDialog: (project: Project) => void;
@@ -39,6 +44,20 @@ export function ProjectProvider({
   const [activeProject, setActiveProject] = useState<Project | null>(null);
   const [isAiSidebarOpen, setIsAiSidebarOpen] = useState(false);
   const [isTemplatesModalOpen, setIsTemplatesModalOpen] = useState(false);
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
+
+  const manualSaveRef = React.useRef<(() => Promise<boolean>) | null>(null);
+
+  const registerManualSave = React.useCallback((saveFn: () => Promise<boolean>) => {
+    manualSaveRef.current = saveFn;
+  }, []);
+
+  const triggerManualSave = React.useCallback(async () => {
+    if (manualSaveRef.current) {
+      return await manualSaveRef.current();
+    }
+    return false;
+  }, []);
 
   // Sync projects state if initialProjects changes
   useEffect(() => {
@@ -57,6 +76,10 @@ export function ProjectProvider({
         setIsAiSidebarOpen,
         isTemplatesModalOpen,
         setIsTemplatesModalOpen,
+        saveStatus,
+        setSaveStatus,
+        registerManualSave,
+        triggerManualSave,
         ...actions,
       }}
     >

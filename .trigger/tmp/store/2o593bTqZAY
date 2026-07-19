@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../../../../../trigger/design-agent.ts"],
+  "sourcesContent": ["import { task } from \"@trigger.dev/sdk/v3\";\n\nexport interface DesignAgentPayload {\n  prompt: string;\n  roomId: string;\n}\n\nexport const designAgent = task({\n  id: \"design-agent\",\n  run: async (payload: DesignAgentPayload) => {\n    console.log(`Design agent triggered with prompt: \"${payload.prompt}\" in room: \"${payload.roomId}\"`);\n    return {\n      success: true,\n      echo: payload,\n    };\n  },\n});\n"],
+  "mappings": ";;;;;;;;;;AAAA;AAOO,IAAM,cAAc,KAAK;AAAA,EAC9B,IAAI;AAAA,EACJ,KAAK,8BAAO,YAAgC;AAC1C,YAAQ,IAAI,wCAAwC,QAAQ,MAAM,eAAe,QAAQ,MAAM,GAAG;AAClG,WAAO;AAAA,MACL,SAAS;AAAA,MACT,MAAM;AAAA,IACR;AAAA,EACF,GANK;AAOP,CAAC;",
+  "names": []
+}

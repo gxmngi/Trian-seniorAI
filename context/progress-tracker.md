@@ -5,11 +5,11 @@ change.
 
 ## Current Phase
 
-- Feature 18 (Starter Template) - Complete
+- Feature 26 (Design Agent Frontend) - In Progress
 
 ## Current Goal
 
-- TBD
+- Wire AI sidebar to submit prompts, track runs with useRealtimeRun, post completion messages to ai-chat feed
 
 ## Completed
 
@@ -31,10 +31,14 @@ change.
 - Feature 16: Edge Behavior & Labels (Created custom `CanvasEdgeComponent` with orthogonal smooth-step right-angle routing and rounded ends; configured double-click inline label input with auto-expanding width, Esc/Enter key support, and canvas click isolation using `EdgeLabelRenderer`; added dynamic marker arrowheads and a invisible thick interaction path for easy clicking/hovering)
 - Feature 17: Canvas Ergonomics (Created bottom-left floating control bar containing zoom options and history undo/redo buttons; wired history controls to Liveblocks storage timeline hooks `useHistory` and zoom controls to `useReactFlow` API actions; added `useKeyboardShortcuts` hook in `hooks/` to listen for canvas keybind overrides, checking that shortcuts are skipped when typing in inputs/textareas; removed the canvas Minimap component)
 - Feature 18: Starter Template Library (Created `components/editor/starter-templates.ts` defining microservices architecture, CI/CD pipeline, and event-driven templates; built `StarterTemplatesModal` displaying a 3-column scrollable templates grid with static auto-scaling SVG diagram previews; integrated 'Templates' button into the workspace navbar; implemented transactional Liveblocks storage mutations to clear and replace canvas nodes/edges, triggering `fitView` after import)
+- Feature 19: Presence & Cursors (Configured global Presence schemas; mapped collaborator avatars using a Portal into `EditorNavbar` to place them next to Clerk's `UserButton` with a vertical divider when other users exist, filtering out the current user; implemented pointer tracking on the canvas viewport to broadcast pointer coordinates and clear them on pointer leave; rendered cursors with dynamic SVG pointers and participant-color name badges)
+- Feature 20: AI Sidebar (Extracted the AI sidebar to a stateful `components/editor/ai-sidebar.tsx` component; built tabbed layouts for 'AI Architect' and 'Specs' using shadcn components; implemented interactive simulated AI message responses inside the scrollable chat view, starter prompt chips, auto-resizing input textarea (72px to 160px height), and a static demo spec card in the Specs tab with disabled actions)
+- Feature 22: Design Agent API (Set up the backend task triggering and run tracking for Trigger.dev. Created POST /api/ai/design, POST /api/ai/design/token, the TaskRun Prisma model, and trigger/design-agent.ts task wrapper. All compile checks and Next.js production builds pass successfully.)
+- Feature 25: Sidebar Chat Feed (Added ai-chat Liveblocks feed to the AI sidebar: subscribes with useFeedMessages, sends via useCreateFeedMessage, validates messages with parseAiChatMessage Zod schema before rendering, shows sender name + timestamp per message, dismissible error banner on send failure, ai-chat kept separate from ai-status-feed.)
 
 ## In Progress
 
-- None yet.
+- Feature 26: Design Agent Frontend (Wiring the AI sidebar submit flow to POST /api/ai/design, tracking runs via useRealtimeRun, pushing user + AI messages to ai-chat feed, showing status strip only during active runs.)
 
 ## Next Up
 

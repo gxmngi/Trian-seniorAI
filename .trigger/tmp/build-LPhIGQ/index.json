@@ -1,0 +1,34 @@
+{
+  "configPath": "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-LPhIGQ\\OneDrive\\Desktop\\GhostAI\\my-app\\trigger.config.mjs",
+  "customConditions": [
+  ],
+  "prompts": [
+  ],
+  "queues": [
+  ],
+  "runtime": "node",
+  "runtimeVersion": "22.22.0",
+  "skills": [
+  ],
+  "tasks": [
+    {
+      "entryPoint": "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-LPhIGQ\\OneDrive\\Desktop\\GhostAI\\my-app\\trigger\\design-agent.mjs",
+      "filePath": "trigger/design-agent.ts",
+      "id": "design-agent",
+      "maxDuration": 3600,
+      "retry": {
+        "factor": 2,
+        "maxAttempts": 3,
+        "maxTimeoutInMs": 10000,
+        "minTimeoutInMs": 1000,
+        "randomize": true
+      }
+    }
+  ],
+  "timings": {
+    "trigger/design-agent-fallback.ts": 2.4325000000000045,
+    "trigger/design-agent-summary.ts": 2.2765000000000555,
+    "trigger/design-agent.ts": 121.51010000000008
+  },
+  "workerEntryPoint": "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-LPhIGQ\\AppData\\Local\\npm-cache\\_npx\\f51a09bd0abf5f10\\node_modules\\trigger.dev\\dist\\esm\\entryPoints\\dev-run-worker.mjs"
+}
