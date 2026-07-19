@@ -1,7 +1,8 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { PanelLeftClose, PanelLeftOpen, Share2, Sparkles, LayoutTemplate } from "lucide-react";
+import { PanelLeftClose, PanelLeftOpen, Share2, Sparkles, LayoutTemplate, Cloud, CloudOff, Loader2 } from "lucide-react";
 import { SignInButton, SignUpButton, Show, UserButton } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
 import { useProject } from "./project-context";
@@ -17,8 +18,47 @@ export function EditorNavbar({
   onToggleSidebar,
   onOpenShare,
 }: EditorNavbarProps) {
-  const { activeProject, isAiSidebarOpen, setIsAiSidebarOpen, openShareDialog, setIsTemplatesModalOpen } = useProject();
+  const {
+    activeProject,
+    isAiSidebarOpen,
+    setIsAiSidebarOpen,
+    openShareDialog,
+    setIsTemplatesModalOpen,
+    saveStatus,
+    setSaveStatus,
+    triggerManualSave,
+  } = useProject();
   const projectName = activeProject?.name;
+
+  const [buttonState, setButtonState] = useState<"idle" | "saving" | "saved" | "error">(saveStatus);
+
+  useEffect(() => {
+    if (saveStatus === "saving") {
+      setButtonState("saving");
+    } else if (saveStatus === "saved") {
+      setButtonState("saved");
+      const timer = setTimeout(() => {
+        setButtonState("idle");
+        setSaveStatus("idle");
+      }, 2000);
+      return () => clearTimeout(timer);
+    } else if (saveStatus === "error") {
+      setButtonState("error");
+      const timer = setTimeout(() => {
+        setButtonState("idle");
+        setSaveStatus("idle");
+      }, 2000);
+      return () => clearTimeout(timer);
+    } else if (saveStatus === "idle") {
+      setButtonState("idle");
+    }
+  }, [saveStatus, setSaveStatus]);
+
+  const handleManualSave = async () => {
+    if (triggerManualSave && buttonState !== "saving") {
+      await triggerManualSave();
+    }
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40 flex h-16 items-center justify-between border-b border-border-default bg-bg-surface px-4 text-text-primary">
@@ -58,6 +98,38 @@ export function EditorNavbar({
       <div className="flex items-center gap-1.5 shrink-0">
         {projectName && (
           <>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-text-secondary hover:text-text-primary hover:bg-bg-subtle gap-1.5 h-8.5 rounded-xl px-3 cursor-pointer"
+              disabled={buttonState === "saving"}
+              onClick={handleManualSave}
+            >
+              {buttonState === "saving" && (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin text-accent-ai" />
+                  <span className="text-xs font-semibold">Saving ... </span>
+                </>
+              )}
+              {buttonState === "error" && (
+                <>
+                  <CloudOff className="h-4 w-4 text-red-500" />
+                  <span className="text-xs font-semibold text-red-400">Error</span>
+                </>
+              )}
+              {buttonState === "saved" && (
+                <>
+                  <Cloud className="h-4 w-4 text-green-500" />
+                  <span className="text-xs font-semibold text-zinc-400">Saved</span>
+                </>
+              )}
+              {buttonState === "idle" && (
+                <>
+                  <Cloud className="h-4 w-4 text-zinc-400" />
+                  <span className="text-xs font-semibold text-zinc-400">Save</span>
+                </>
+              )}
+            </Button>
             <Button
               variant="ghost"
               size="sm"
@@ -110,13 +182,16 @@ export function EditorNavbar({
           </SignUpButton>
         </Show>
         <Show when="signed-in">
-          <UserButton
-            appearance={{
-              elements: {
-                userButtonAvatarBox: "h-8.5 w-8.5 rounded-full border border-border-default",
-              },
-            }}
-          />
+          <div className="flex items-center gap-2">
+            <div id="navbar-presence-portal" className="flex items-center" />
+            <UserButton
+              appearance={{
+                elements: {
+                  userButtonAvatarBox: "h-8.5 w-8.5 rounded-full border border-border-default",
+                },
+              }}
+            />
+          </div>
         </Show>
       </div>
     </header>

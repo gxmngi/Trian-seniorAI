@@ -65,6 +65,7 @@ export function CanvasRoom({ roomId, children }: CanvasRoomProps) {
           initialPresence={{
             cursor: null,
             isThinking: false,
+            thinking: false,
           }}
           initialStorage={{
             flow: new LiveObject({

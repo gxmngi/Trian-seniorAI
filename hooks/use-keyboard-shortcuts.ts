@@ -7,6 +7,8 @@ interface KeyboardShortcutsProps {
   redo: () => void;
   canUndo: boolean;
   canRedo: boolean;
+  copy?: () => void;
+  paste?: () => void;
 }
 
 export function useKeyboardShortcuts({
@@ -16,6 +18,8 @@ export function useKeyboardShortcuts({
   redo,
   canUndo,
   canRedo,
+  copy,
+  paste,
 }: KeyboardShortcutsProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -64,11 +68,26 @@ export function useKeyboardShortcuts({
           redo();
         }
       }
+      // Copy: Cmd/Ctrl + C
+      else if (isCmdOrCtrl && e.key?.toLowerCase() === "c") {
+        if (copy) {
+          e.preventDefault();
+          copy();
+        }
+      }
+      // Paste: Cmd/Ctrl + V
+      else if (isCmdOrCtrl && e.key?.toLowerCase() === "v") {
+        if (paste) {
+          e.preventDefault();
+          paste();
+        }
+      }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [zoomIn, zoomOut, undo, redo, canUndo, canRedo]);
+  }, [zoomIn, zoomOut, undo, redo, canUndo, canRedo, copy, paste]);
 }
+

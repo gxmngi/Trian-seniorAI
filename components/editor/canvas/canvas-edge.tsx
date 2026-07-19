@@ -55,7 +55,7 @@ export function CanvasEdgeComponent({
     }
   }, []);
 
-  const handleDoubleClick = (e: React.MouseEvent) => {
+  const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsEditing(true);
   };
@@ -94,7 +94,7 @@ export function CanvasEdgeComponent({
         className="cursor-pointer pointer-events-auto animate-none"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onDoubleClick={handleDoubleClick}
+        onClick={handleClick}
       />
       {/* Visible path */}
       <path
@@ -135,7 +135,7 @@ export function CanvasEdgeComponent({
             pointerEvents: "all",
           }}
           className="nodrag nopan nowheel z-30 select-none"
-          onDoubleClick={handleDoubleClick}
+          onClick={handleClick}
         >
           {isEditing ? (
             <input
