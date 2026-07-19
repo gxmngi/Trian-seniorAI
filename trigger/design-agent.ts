@@ -137,21 +137,20 @@ ${JSON.stringify({ nodes: currentNodes, edges: currentEdges }, null, 2)}
 Please use the provided tools (addNode, moveNode, resizeNode, updateNodeData, deleteNode, addEdge, deleteEdge) to fulfill the user's request.
 Call as many tools as needed to implement the requested design.
 
-Rules:
-- Shapes: Use "cylinder" for databases/data storage, "diamond" for decision gates/load balancers/routers, "circle" or "pill" for entry/start/end points, "rectangle" or "hexagon" for general services or workers.
-- Colors: Use colors to group or distinguish parts of the system (e.g., "green" for database, "blue" for API gateway or main services, "orange" for clients/users, "red" for external or third party APIs, "purple" for workers/queues, "teal" for CDN/cache).
-- Layout: Align nodes on a grid or sequence (left-to-right or top-to-bottom). Do not overlap nodes! Space them out (e.g., 200px to 350px apart).
+Rules for High-Detail Architecture:
+- COMPREHENSIVE DETAIL: Do not draw simple placeholder diagrams. Deconstruct the architecture into highly detailed components: include client entry points (e.g., Browser/Mobile App, IoT), load balancers/gateways, individual microservices, caches (e.g. Redis), primary & read-replica databases, message queues (e.g. RabbitMQ/Kafka), consumer workers, and external third-party service nodes (e.g., Auth, Payments).
+- Shapes: Use "cylinder" for databases/data storage, "diamond" for decision gates/load balancers/routers/gateways, "circle" or "pill" for entry/start/end points/clients, "rectangle" or "hexagon" for general services or background workers.
+- Colors: Use colors to group or distinguish parts of the system (e.g., "green" for database/storage, "blue" for API gateways or main services, "orange" for clients/users/frontend, "red" for external or third-party APIs/Auth, "purple" for workers/queues, "teal" for CDN/cache).
+- Layout: Align nodes on a grid or sequence (left-to-right or top-to-bottom). Do not overlap nodes! Space them out generously (e.g., 200px to 350px apart) so they are easy to read.
 - Existing items: Keep, modify, or extend existing nodes and edges if they are present. Do not delete them unless requested or required.
-- IMPORTANT — Edges: ALWAYS call addEdge after you have added the relevant nodes. The "source" and "target" fields in addEdge MUST exactly match the "id" values you used in addNode calls. Always add a short descriptive label to every edge (e.g. "HTTP", "REST", "SQL", "gRPC", "events", "cache", "reads", "writes"). Do NOT leave edge labels empty.`;
+- IMPORTANT — Edges: ALWAYS call addEdge after you have added the relevant nodes. The "source" and "target" fields in addEdge MUST exactly match the "id" values you used in addNode calls. Always add a short descriptive label to every edge specifying the protocol or action (e.g., "HTTPS Request", "Verify Token", "Cache Read", "Publish Order Event", "Consume Job", "SQL Write"). Do NOT leave edge labels empty.`;
 
       let response;
-      // Versioned model IDs supported by Gemini API v1beta (used by @ai-sdk/google v4)
+      // Versioned model IDs supported by Gemini API (used by @ai-sdk/google)
       const modelsToTry = [
-        "gemini-2.0-flash-001",   // Stable GA release of Gemini 2.0 Flash
-        "gemini-2.0-flash",        // Alias (may resolve to 001)
-        "gemini-1.5-flash-001",   // Stable GA release of Gemini 1.5 Flash
-        "gemini-1.5-flash",        // Alias
-        "gemini-1.5-pro-001",     // Fallback: more capable model
+        "gemini-2.0-flash",        // Standard Gemini 2.0 Flash
+        "gemini-1.5-flash",        // Standard Gemini 1.5 Flash
+        "gemini-1.5-pro",          // Fallback Gemini 1.5 Pro
       ];
 
       let lastError: any = null;
@@ -281,11 +280,11 @@ Rules:
               const node = nodesMap.get(actionPayload.id);
               if (node) {
                 const position = node.get("position");
-                if (position) {
-                  position.set("x", actionPayload.position.x);
-                  position.set("y", actionPayload.position.y);
+                if (position && typeof (position as any).set === "function") {
+                  (position as any).set("x", actionPayload.position.x);
+                  (position as any).set("y", actionPayload.position.y);
                 } else {
-                  node.set("position", new LiveObject(actionPayload.position));
+                  node.set("position", actionPayload.position);
                 }
               }
             } else if (action === "resizeNode") {
@@ -298,10 +297,16 @@ Rules:
               const node = nodesMap.get(actionPayload.id);
               if (node) {
                 const data = node.get("data");
-                if (data) {
-                  if (actionPayload.label !== undefined) data.set("label", actionPayload.label);
-                  if (actionPayload.color !== undefined) data.set("color", actionPayload.color);
-                  if (actionPayload.shape !== undefined) data.set("shape", actionPayload.shape);
+                if (data && typeof (data as any).set === "function") {
+                  if (actionPayload.label !== undefined) (data as any).set("label", actionPayload.label);
+                  if (actionPayload.color !== undefined) (data as any).set("color", actionPayload.color);
+                  if (actionPayload.shape !== undefined) (data as any).set("shape", actionPayload.shape);
+                } else if (data) {
+                  const newData = { ...data };
+                  if (actionPayload.label !== undefined) newData.label = actionPayload.label;
+                  if (actionPayload.color !== undefined) newData.color = actionPayload.color;
+                  if (actionPayload.shape !== undefined) newData.shape = actionPayload.shape;
+                  node.set("data", newData);
                 }
               }
             } else if (action === "deleteNode") {

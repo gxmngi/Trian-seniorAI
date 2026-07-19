@@ -11,10 +11,12 @@ import {
   useOthers,
   useCreateFeedMessage,
   useSelf,
+  useStorage,
 } from "@liveblocks/react";
 import { useRealtimeRun } from "@trigger.dev/react-hooks";
 import { parseAiStatusFeedPayload, parseAiChatMessage } from "@/types/tasks";
 import { useProject } from "./project-context";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 
 interface AiSidebarProps {
   isOpen: boolean;
@@ -72,6 +74,97 @@ export function AiSidebar({ isOpen, onClose }: AiSidebarProps) {
   const [activeRunId, setActiveRunId] = useState<string | null>(null);
   const [activeToken, setActiveToken] = useState<string | null>(null);
   const [isRunActive, setIsRunActive] = useState(false);
+  const [runType, setRunType] = useState<"design" | "spec" | null>(null);
+
+  // Spec states
+  const [specs, setSpecs] = useState<any[]>([]);
+  const [specsLoading, setSpecsLoading] = useState(false);
+  const [selectedSpec, setSelectedSpec] = useState<any | null>(null);
+  const [previewContent, setPreviewContent] = useState<string>("");
+  const [previewLoading, setPreviewLoading] = useState(false);
+
+  // Retrieve canvas flow nodes and edges from storage
+  const flow = useStorage((root: any) => root.flow);
+  const nodesArray = useMemo(() => {
+    if (!flow?.nodes) return [];
+    return Object.values(flow.nodes);
+  }, [flow?.nodes]);
+
+  const edgesArray = useMemo(() => {
+    if (!flow?.edges) return [];
+    return Object.values(flow.edges);
+  }, [flow?.edges]);
+
+  // Fetch specs list
+  const fetchSpecs = useCallback(async () => {
+    if (!activeProject?.id) return;
+    setSpecsLoading(true);
+    try {
+      const res = await fetch(`/api/projects/${activeProject.id}/specs`);
+      if (res.ok) {
+        const data = await res.json();
+        setSpecs(data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch specs:", err);
+    } finally {
+      setSpecsLoading(false);
+    }
+  }, [activeProject?.id]);
+
+  useEffect(() => {
+    void fetchSpecs();
+  }, [fetchSpecs]);
+
+  const getFilename = (filePath: string) => {
+    try {
+      if (filePath.startsWith("https://mock-blob-url.local")) {
+        const url = new URL(filePath);
+        return url.pathname.replace(/^\//, "");
+      }
+      const url = new URL(filePath);
+      const parts = url.pathname.split("/");
+      return parts[parts.length - 1];
+    } catch {
+      return "spec.md";
+    }
+  };
+
+  const handleOpenPreview = async (spec: any) => {
+    setSelectedSpec(spec);
+    setPreviewContent("");
+    setPreviewLoading(true);
+    try {
+      const res = await fetch(`/api/projects/${activeProject?.id}/specs/${spec.id}/download`);
+      if (res.ok) {
+        const text = await res.text();
+        setPreviewContent(text);
+      } else {
+        setPreviewContent("Failed to load specification content.");
+      }
+    } catch (err) {
+      console.error("Failed to fetch spec content:", err);
+      setPreviewContent("Failed to load specification content.");
+    } finally {
+      setPreviewLoading(false);
+    }
+  };
+
+  const handleClosePreview = () => {
+    setSelectedSpec(null);
+    setPreviewContent("");
+  };
+
+  const handleDownload = (spec: any) => {
+    if (!activeProject?.id) return;
+    const downloadUrl = `/api/projects/${activeProject.id}/specs/${spec.id}/download`;
+    const link = document.createElement("a");
+    link.href = downloadUrl;
+    link.download = getFilename(spec.filePath);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   // AI presence from Liveblocks (used for status text only, not gating)
   const aiAgent = others.find((other) => other.id === "ai-agent");
@@ -188,25 +281,40 @@ export function AiSidebar({ isOpen, onClose }: AiSidebarProps) {
   // IMPORTANT: These must be defined BEFORE any early return to satisfy Rules of Hooks
   // ---------------------------------------------------------------------------
   const handleRunCompleted = useCallback(
-    async (result?: { summary?: string }) => {
-      const summary =
-        result?.summary ||
-        "I've generated the design on the canvas. Let me know if you'd like any changes.";
-      try {
-        await createFeedMessage("ai-chat", {
-          sender: "Ghost AI",
-          role: "ai",
-          content: summary,
-          timestamp: Date.now(),
-        });
-      } catch (err) {
-        console.error("ai-chat completion message error:", err);
+    async (result?: { summary?: string } | string | any) => {
+      if (runType === "spec") {
+        try {
+          await createFeedMessage("ai-chat", {
+            sender: "Ghost AI",
+            role: "ai",
+            content: "I've successfully generated and saved the technical specification. You can find it under the **Specs** tab.",
+            timestamp: Date.now(),
+          });
+        } catch (err) {
+          console.error("ai-chat spec message error:", err);
+        }
+        void fetchSpecs();
+      } else {
+        const summary =
+          (result && typeof result === "object" && "summary" in result ? result.summary : null) ||
+          "I've generated the design on the canvas. Let me know if you'd like any changes.";
+        try {
+          await createFeedMessage("ai-chat", {
+            sender: "Ghost AI",
+            role: "ai",
+            content: summary,
+            timestamp: Date.now(),
+          });
+        } catch (err) {
+          console.error("ai-chat completion message error:", err);
+        }
       }
       setIsRunActive(false);
       setActiveRunId(null);
       setActiveToken(null);
+      setRunType(null);
     },
-    [createFeedMessage]
+    [runType, fetchSpecs, createFeedMessage]
   );
 
   const handleRunFailed = useCallback(
@@ -215,7 +323,9 @@ export function AiSidebar({ isOpen, onClose }: AiSidebarProps) {
         await createFeedMessage("ai-chat", {
           sender: "Ghost AI",
           role: "ai",
-          content: `Sorry, the design agent encountered an error: ${errMsg}`,
+          content: runType === "spec"
+            ? `Sorry, the specification generation agent encountered an error: ${errMsg}`
+            : `Sorry, the design agent encountered an error: ${errMsg}`,
           timestamp: Date.now(),
         });
       } catch (err) {
@@ -224,8 +334,9 @@ export function AiSidebar({ isOpen, onClose }: AiSidebarProps) {
       setIsRunActive(false);
       setActiveRunId(null);
       setActiveToken(null);
+      setRunType(null);
     },
-    [createFeedMessage]
+    [runType, createFeedMessage]
   );
 
   // ---------------------------------------------------------------------------
@@ -254,6 +365,7 @@ export function AiSidebar({ isOpen, onClose }: AiSidebarProps) {
 
     // 2. Call /api/ai/design to start the run
     try {
+      setRunType("design");
       const designRes = await fetch("/api/ai/design", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -311,6 +423,88 @@ export function AiSidebar({ isOpen, onClose }: AiSidebarProps) {
       setIsRunActive(false);
       setActiveRunId(null);
       setActiveToken(null);
+    }
+  };
+
+  const handleGenerateSpec = async () => {
+    if (!activeProject || isRunActive) return;
+
+    setIsRunActive(true);
+    setRunType("spec");
+
+    // 1. Post user trigger message to ai-chat feed immediately
+    const senderName = self?.info?.name ?? "You";
+    try {
+      await createFeedMessage("ai-chat", {
+        sender: senderName,
+        role: "user",
+        content: "Generate a technical specification for the current canvas architecture.",
+        timestamp: Date.now(),
+      });
+    } catch (err) {
+      console.error("ai-chat user spec message error:", err);
+    }
+
+    try {
+      // 2. Call /api/ai/spec to start the run
+      const specRes = await fetch("/api/ai/spec", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          roomId: activeProject.id,
+          chatHistory: validatedChatMessages,
+          nodes: nodesArray,
+          edges: edgesArray,
+        }),
+      });
+
+      if (!specRes.ok) {
+        const errData = await specRes.json().catch(() => ({}));
+        throw new Error(
+          (errData as { error?: string }).error || "Failed to start spec generation"
+        );
+      }
+
+      const { runId } = (await specRes.json()) as { runId: string };
+
+      // 3. Fetch the public token scoped to this run
+      const tokenRes = await fetch("/api/ai/spec/token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ runId }),
+      });
+
+      if (!tokenRes.ok) {
+        const errData = await tokenRes.json().catch(() => ({}));
+        throw new Error(
+          (errData as { error?: string }).error || "Failed to generate run token"
+        );
+      }
+
+      const { token } = (await tokenRes.json()) as { token: string };
+
+      // 4. Store runId + token → activates RunTracker
+      setActiveRunId(runId);
+      setActiveToken(token);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error";
+      console.error("Spec agent trigger error:", err);
+
+      try {
+        await createFeedMessage("ai-chat", {
+          sender: "Ghost AI",
+          role: "ai",
+          content: `Failed to start the spec generation: ${message}`,
+          timestamp: Date.now(),
+        });
+      } catch {
+        // Ignore secondary error
+      }
+
+      setIsRunActive(false);
+      setActiveRunId(null);
+      setActiveToken(null);
+      setRunType(null);
     }
   };
 
@@ -501,35 +695,74 @@ export function AiSidebar({ isOpen, onClose }: AiSidebarProps) {
           value="specs"
           className="flex-1 p-4 flex flex-col overflow-hidden outline-none data-[state=inactive]:hidden"
         >
-          <Button className="w-full bg-[#1c1c1f] hover:bg-zinc-800 border border-zinc-700 text-zinc-200 text-xs font-semibold rounded-lg h-9 mb-4 transition-colors cursor-pointer flex items-center justify-center gap-2">
+          <Button
+            onClick={handleGenerateSpec}
+            disabled={isRunActive}
+            className="w-full bg-[#1c1c1f] hover:bg-zinc-800 border border-zinc-700 text-zinc-200 text-xs font-semibold rounded-lg h-9 mb-4 transition-colors cursor-pointer flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
             <Sparkles className="h-3.5 w-3.5 text-accent-ai animate-pulse" />
-            Generate Spec
+            {isRunActive && runType === "spec" ? "Generating..." : "Generate Spec"}
           </Button>
 
-          <div className="bg-[#0b0b0d] border border-[#1f1f23] rounded-xl p-4 flex flex-col">
-            <div className="flex items-start gap-3 mb-4">
-              <div className="p-2 bg-[#18181b] border border-[#27272a] rounded-lg text-accent-ai">
-                <FileText className="h-5 w-5" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <h4 className="text-xs font-bold text-zinc-200 truncate">
-                  Microservices Architecture Spec
-                </h4>
-                <p className="text-[10px] text-zinc-400 mt-0.5 line-clamp-2 leading-relaxed">
-                  System architecture blueprint detailing gateway routing middleware, auth
-                  validation, and database schemas.
-                </p>
-              </div>
+          {specsLoading && specs.length === 0 ? (
+            <div className="flex-1 flex flex-col items-center justify-center text-center p-6 select-none bg-[#09090b]/40 rounded-xl border border-zinc-800/40">
+              <Loader2 className="h-6 w-6 animate-spin text-accent-ai mb-2" />
+              <p className="text-xs text-zinc-400">Loading specs...</p>
             </div>
+          ) : specs.length === 0 ? (
+            <div className="flex-1 flex flex-col items-center justify-center text-center p-6 select-none bg-[#09090b]/40 rounded-xl border border-zinc-800/40">
+              <FileText className="h-8 w-8 text-zinc-600 mb-2" />
+              <p className="text-xs text-zinc-400">No specifications generated yet.</p>
+              <p className="text-[10px] text-zinc-500 max-w-[180px] mt-1">
+                Click the button above to generate one from the current canvas layout.
+              </p>
+            </div>
+          ) : (
+            <ScrollArea className="flex-1 -mx-2 px-2">
+              <div className="space-y-3 pr-2">
+                {specs.map((spec) => (
+                  <div
+                    key={spec.id}
+                    onClick={() => handleOpenPreview(spec)}
+                    className="group bg-[#0b0b0d] hover:bg-[#121215] border border-[#1f1f23] hover:border-zinc-700/60 rounded-xl p-3.5 flex flex-col cursor-pointer transition-all"
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 bg-[#18181b] group-hover:bg-[#1f1f24] border border-[#27272a] group-hover:border-zinc-700 rounded-lg text-accent-ai transition-colors">
+                        <FileText className="h-4.5 w-4.5" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="text-xs font-bold text-zinc-200 truncate group-hover:text-zinc-100 transition-colors">
+                          {getFilename(spec.filePath)}
+                        </h4>
+                        <p className="text-[9px] text-zinc-400 mt-1">
+                          Generated {new Date(spec.createdAt).toLocaleDateString([], {
+                            month: "short",
+                            day: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit"
+                          })}
+                        </p>
+                      </div>
+                    </div>
 
-            <Button
-              disabled
-              className="w-full bg-zinc-800/30 hover:bg-zinc-800/30 border border-zinc-800/50 text-zinc-500 text-xs font-semibold rounded-lg h-9 flex items-center justify-center gap-1.5 cursor-not-allowed opacity-50"
-            >
-              <ArrowDownToLine className="h-4 w-4" />
-              Download Spec
-            </Button>
-          </div>
+                    <div className="flex gap-2 mt-3.5 pt-3 border-t border-[#1f1f23] group-hover:border-zinc-800/80">
+                      <Button
+                        size="sm"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDownload(spec);
+                        }}
+                        className="flex-1 bg-zinc-800/40 hover:bg-zinc-800/80 border border-zinc-800 text-zinc-300 hover:text-zinc-100 text-[10px] font-semibold rounded-lg h-7 gap-1 transition-colors cursor-pointer"
+                      >
+                        <ArrowDownToLine className="h-3.5 w-3.5" />
+                        Download
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+          )}
         </TabsContent>
       </Tabs>
 
@@ -542,6 +775,103 @@ export function AiSidebar({ isOpen, onClose }: AiSidebarProps) {
           onFailed={handleRunFailed}
         />
       )}
+
+      {/* Spec Preview Dialog */}
+      <Dialog open={selectedSpec !== null} onOpenChange={(open) => { if (!open) handleClosePreview(); }}>
+        <DialogContent className="max-w-2xl bg-[#0c0c0e] border border-zinc-800 text-zinc-100 rounded-2xl p-6 shadow-2xl flex flex-col max-h-[85vh] outline-none">
+          <DialogHeader className="border-b border-zinc-800 pb-4 mb-4 flex flex-row items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-[#18181b] border border-[#27272a] rounded-lg text-accent-ai">
+                <FileText className="h-5 w-5" />
+              </div>
+              <div className="min-w-0">
+                <DialogTitle className="text-sm font-bold text-zinc-100 truncate">
+                  {selectedSpec ? getFilename(selectedSpec.filePath) : "Specification Preview"}
+                </DialogTitle>
+                <p className="text-[10px] text-zinc-400 mt-0.5">
+                  {selectedSpec && `Generated on ${new Date(selectedSpec.createdAt).toLocaleDateString([], {
+                    month: "long",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit"
+                  })}`}
+                </p>
+              </div>
+            </div>
+          </DialogHeader>
+
+          <ScrollArea className="flex-1 pr-2 min-h-0">
+            {previewLoading ? (
+              <div className="flex flex-col items-center justify-center py-20 gap-3 select-none">
+                <Loader2 className="h-7 w-7 animate-spin text-accent-ai" />
+                <p className="text-xs text-zinc-400 font-medium">Fetching specification content...</p>
+              </div>
+            ) : (
+              <div className="pb-6">
+                <MarkdownPreview content={previewContent} />
+              </div>
+            )}
+          </ScrollArea>
+
+          <DialogFooter className="border-t border-zinc-800 pt-4 mt-4 flex items-center justify-between gap-3">
+            <div className="text-[10px] text-zinc-500">
+              * Esc to close, Tab to navigate
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                onClick={handleClosePreview}
+                className="bg-transparent hover:bg-zinc-800/40 text-zinc-400 hover:text-zinc-200 border border-transparent rounded-lg h-9 px-4 text-xs font-semibold cursor-pointer"
+              >
+                Close
+              </Button>
+              <Button
+                onClick={() => selectedSpec && handleDownload(selectedSpec)}
+                className="bg-accent-ai hover:bg-accent-ai/90 text-white rounded-lg h-9 px-4 text-xs font-semibold flex items-center gap-1.5 cursor-pointer"
+              >
+                <ArrowDownToLine className="h-4 w-4" />
+                Download Markdown
+              </Button>
+            </div>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </aside>
+  );
+}
+
+function parseInlineStyles(text: string) {
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  return parts.map((part, i) => {
+    if (part.startsWith("**") && part.endsWith("**")) {
+      return <strong key={i} className="font-bold text-zinc-100">{part.slice(2, -2)}</strong>;
+    }
+    return part;
+  });
+}
+
+function MarkdownPreview({ content }: { content: string }) {
+  const lines = content.split("\n");
+  return (
+    <div className="space-y-4 text-sm text-zinc-300 leading-relaxed font-sans">
+      {lines.map((line, i) => {
+        if (line.startsWith("# ")) {
+          return <h1 key={i} className="text-xl font-bold text-zinc-100 border-b border-zinc-800 pb-2 mt-6">{line.slice(2)}</h1>;
+        }
+        if (line.startsWith("## ")) {
+          return <h2 key={i} className="text-lg font-semibold text-zinc-100 mt-5">{line.slice(3)}</h2>;
+        }
+        if (line.startsWith("### ")) {
+          return <h3 key={i} className="text-base font-medium text-zinc-100 mt-4">{line.slice(4)}</h3>;
+        }
+        if (line.startsWith("- ")) {
+          return <li key={i} className="ml-4 list-disc pl-1">{parseInlineStyles(line.slice(2))}</li>;
+        }
+        if (!line.trim()) {
+          return <div key={i} className="h-2" />;
+        }
+        return <p key={i}>{parseInlineStyles(line)}</p>;
+      })}
+    </div>
   );
 }
