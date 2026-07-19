@@ -1,36 +1,124 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GhostAI - Collaborative Software Architecture Canvas
 
-## Getting Started
+GhostAI is a state-of-the-art, production-ready collaborative platform for software architects and developers. It combines a real-time collaborative canvas with AI-powered system design generation and automated technical specification compiling.
 
-First, run the development server:
+**Live Deployment:** [trian-senior-ai-git-development-rusdanlamsa-9430s-projects.vercel.app](https://trian-senior-ai-git-development-rusdanlamsa-9430s-projects.vercel.app)
 
+---
+
+## 🚀 Key Features
+
+### 1. Collaborative Canvas Workspace
+*   **Real-time Multiplayer Editing:** Synchronized using **Liveblocks**, supporting concurrent participants with live cursors, pointer tracking, and color name badges.
+*   **Custom Shapes & Layouts:** Supports standard nodes (rectangles, circles, pills) and SVG scale-invariant nodes (diamonds, hexagons, cylinders) with custom resize handles and inline double-click editing.
+*   **Edge Connections:** Orthogonal smooth-step right-angle routing, arrowheads, double-clickable inline label overlays, and optimized click/hover triggers.
+*   **Ergonomics:** Complete viewport zoom controls, undo/redo state history, and global keyboard shortcuts (de-activated when typing in input forms).
+*   **Templates Library:** One-click imports for starter templates (e.g., Microservices architecture, CI/CD pipelines, Event-driven systems) with automatic diagram centering.
+
+### 2. Clerk Authentication & Access Control
+*   **Auth Gates:** Responsive, styled sign-in/up dashboards secured by Clerk, customized to match the system's dark theme.
+*   **Share System:** Invite collaborators via email with Clerk avatar/display name enrichment, manage read/write permissions, and share clipboard workspace links.
+
+### 3. AI Architect & Spec Generator (Ghost AI)
+*   **Asynchronous AI Partner:** Runs background tasks orchestrated by **Trigger.dev v3** to prevent browser timeouts.
+*   **AI Canvas Painter:** Analyzes prompt requirements and dynamically updates/creates coordinates, nodes, and labeled connector lines using Gemini AI.
+*   **Technical Spec Compiler:** Writes a thorough technical specification based on your canvas architecture and chat history. Stores the markdown file in Vercel Blob, saves metadata in PostgreSQL via Prisma, and enables in-app markdown previews and browser downloads.
+*   **Robust Fallbacks:** Integrates local blueprint spec and layout fallbacks to ensure the application remains fully functional even during Gemini rate limit / quota exhaustion events.
+
+---
+
+## 🛠️ Technology Stack
+
+*   **Framework:** Next.js (App Router, Turbopack, Tailwind CSS v4, shadcn/ui)
+*   **Real-Time Collaboration:** Liveblocks WebSockets, Presence, and Storage
+*   **Background Jobs:** Trigger.dev SDK v3
+*   **AI Engine:** Vercel AI SDK with Google Gemini API (`gemini-2.0-flash`, `gemini-1.5-flash`, `gemini-1.5-pro`)
+*   **ORM & Database:** Prisma ORM with PostgreSQL (hosted)
+*   **File Storage:** Vercel Blob (Private Storage)
+*   **Authentication:** Clerk Authentication SDK
+
+---
+
+## 📦 Getting Started
+
+### 1. Clone & Install Dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <repository-url>
+cd my-app
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Set Up Environment Variables
+Create a `.env.local` file in the root directory:
+```env
+# Clerk Authentication
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+CLERK_SECRET_KEY=your_clerk_secret_key
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Database Connectivity (Prisma)
+DATABASE_URL=postgresql://your_db_connection_url
+DIRECT_DATABASE_URL=postgresql://your_direct_db_connection_url
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Liveblocks Collaboration
+LIVEBLOCKS_SECRET_KEY=your_liveblocks_secret_key
 
-## Learn More
+# Trigger.dev Orchestration
+TRIGGER_SECRET_KEY=your_trigger_secret_key
 
-To learn more about Next.js, take a look at the following resources:
+# Gemini LLM Integration
+GEMINI_API_KEY=your_gemini_api_key
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Vercel Blob Storage
+BLOB_READ_WRITE_TOKEN=your_vercel_blob_token
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 3. Run Database Migrations
+Generate Prisma Client types and sync your schema:
+```bash
+npx prisma db push
+npx prisma generate
+```
 
-## Deploy on Vercel
+### 4. Start Development Servers
+Run the Next.js local server:
+```bash
+npm run dev
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+In a separate terminal, launch the Trigger.dev development worker:
+```bash
+npx trigger.dev@latest dev
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open [http://localhost:3000](http://localhost:3000) with your browser to explore the collaborative AI workspace.
+
+---
+
+## 📂 Project Architecture
+
+```
+├── app/
+│   ├── api/                  # Backend REST API routes
+│   │   ├── ai/               # AI architect and spec triggering endpoints
+│   │   ├── liveblocks-auth/  # Token auth for multiplayer rooms
+│   │   └── projects/         # Project metadata and spec CRUD routes
+│   ├── editor/               # /editor main panel and roomId workspaces
+│   ├── sign-in/              # Auth dashboards
+│   └── layout.tsx            # Global layout configuration
+├── components/
+│   ├── editor/               # Workspace chrome, AI sidebars, and dialogue modals
+│   │   └── canvas/           # Custom React Flow nodes, edges, and room wrappers
+│   └── ui/                   # Modular shadcn buttons, dialogs, and tabs
+├── hooks/                    # Keyboard shortcuts and autosave React hooks
+├── lib/                      # Cached singleton clients (Prisma, Liveblocks)
+├── prisma/
+│   ├── models/               # Modular database schemas (Project, Spec, TaskRun)
+│   └── schema.prisma         # Merged schema declaration
+├── trigger/                  # Background worker tasks (Design Agent, Spec Generator)
+└── types/                    # Core typescript canvas and message interfaces
+```
+
+---
+
