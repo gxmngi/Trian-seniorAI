@@ -10,24 +10,27 @@ interface PageProps {
 export default async function WorkspacePage({ params }: PageProps) {
   const { roomId } = await params;
 
+  let accessResult;
   try {
-    const { hasAccess, project, error } = await checkProjectAccess(roomId);
-
-    if (error === "unauthenticated") {
-      redirect("/sign-in");
-    }
-
-    if (error === "not_found") {
-      notFound();
-    }
-
-    if (!hasAccess || !project) {
-      return <AccessDenied />;
-    }
-
-    return <EditorWorkspaceClient project={project} />;
+    accessResult = await checkProjectAccess(roomId);
   } catch (err) {
     console.error("WorkspacePage error:", err);
     notFound();
   }
+
+  const { hasAccess, project, error } = accessResult;
+
+  if (error === "unauthenticated") {
+    redirect("/sign-in");
+  }
+
+  if (error === "not_found") {
+    notFound();
+  }
+
+  if (!hasAccess || !project) {
+    return <AccessDenied />;
+  }
+
+  return <EditorWorkspaceClient project={project} />;
 }

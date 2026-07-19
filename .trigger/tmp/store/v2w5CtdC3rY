@@ -1,0 +1,123 @@
+import {
+  createGoogle,
+  external_exports,
+  generateText
+} from "../../../../../chunk-OH7HQTSC.mjs";
+import "../../../../../chunk-R43LMS2W.mjs";
+import {
+  task
+} from "../../../../../chunk-VRIWWKHY.mjs";
+import "../../../../../chunk-ZHBVPOXT.mjs";
+import {
+  __name,
+  init_esm
+} from "../../../../../chunk-5A2LE32G.mjs";
+
+// trigger/generate-spec.ts
+init_esm();
+var chatMessageSchema = external_exports.object({
+  id: external_exports.string(),
+  createdAt: external_exports.number().optional(),
+  sender: external_exports.string(),
+  role: external_exports.enum(["user", "ai"]),
+  content: external_exports.string(),
+  timestamp: external_exports.number()
+});
+var nodeSchema = external_exports.object({
+  id: external_exports.string(),
+  type: external_exports.string().optional(),
+  position: external_exports.object({
+    x: external_exports.number(),
+    y: external_exports.number()
+  }),
+  data: external_exports.object({
+    label: external_exports.string(),
+    shape: external_exports.string().optional(),
+    color: external_exports.string().optional()
+  }),
+  width: external_exports.number().optional(),
+  height: external_exports.number().optional()
+});
+var edgeSchema = external_exports.object({
+  id: external_exports.string(),
+  source: external_exports.string(),
+  target: external_exports.string(),
+  label: external_exports.string().optional()
+});
+var generateSpec = task({
+  id: "generate-spec",
+  run: /* @__PURE__ */ __name(async (payload) => {
+    const parsedPayload = external_exports.object({
+      projectId: external_exports.string(),
+      roomId: external_exports.string(),
+      chatHistory: external_exports.array(chatMessageSchema),
+      nodes: external_exports.array(nodeSchema),
+      edges: external_exports.array(edgeSchema)
+    }).parse(payload);
+    const { chatHistory, nodes, edges } = parsedPayload;
+    console.log(`Starting generate-spec for room: ${parsedPayload.roomId}`);
+    const apiKey = process.env.GEMINI_API_KEY || process.env.GOOGLE_AI_API_KEY;
+    if (!apiKey) {
+      throw new Error("Missing GEMINI_API_KEY or GOOGLE_AI_API_KEY environment variable");
+    }
+    const google = createGoogle({ apiKey });
+    const systemPrompt = `You are a principal systems architect and tech lead.
+Your task is to generate a comprehensive, professional Markdown technical specification document based on a collaborative system architecture canvas (nodes and edges) and the architectural chat history between the user and the AI.
+
+Be structured, precise, and thorough. Write in clear, technical, professional English.
+
+Format the specification using clean Markdown with the following structure:
+- **Title**: A professional title for the architecture.
+- **1. Executive Summary**: A high-level overview of the system and business value.
+- **2. System Architecture**: Details about the components, services, and their interactions.
+- **3. Data flow & Protocols**: Explanation of connection pathways, protocols (HTTP, gRPC, event-driven), and sequences.
+- **4. Component Breakdown**: A table/list detail for each node (shape, responsibility, technology choice, and grouping).
+- **5. Scalability & Availability Considerations**: Performance, bottlenecks, cache strategies, queues, and database scaling.
+
+Here is the current canvas state:
+- Nodes:
+${JSON.stringify(nodes, null, 2)}
+- Edges (Connections):
+${JSON.stringify(edges, null, 2)}
+
+Here is the conversation history:
+${JSON.stringify(chatHistory, null, 2)}`;
+    const modelsToTry = [
+      "gemini-2.0-flash-001",
+      "gemini-2.0-flash",
+      "gemini-1.5-flash-001",
+      "gemini-1.5-flash",
+      "gemini-1.5-pro-001"
+    ];
+    let response;
+    let lastError = null;
+    for (const modelName of modelsToTry) {
+      try {
+        console.log(`Attempting spec generation with ${modelName}...`);
+        response = await generateText({
+          model: google(modelName),
+          prompt: systemPrompt
+        });
+        console.log(`Successfully generated spec using ${modelName}`);
+        break;
+      } catch (err) {
+        const reason = err?.message || String(err);
+        console.warn(`[${modelName}] failed: ${reason}`);
+        lastError = err;
+        if (reason.includes("API_KEY_INVALID") || reason.includes("PERMISSION_DENIED")) {
+          console.error("API key error — stopping retries.");
+          break;
+        }
+      }
+    }
+    if (!response?.text) {
+      const lastMsg = lastError?.message || "All Gemini models failed.";
+      throw new Error(`Technical spec generation failed: ${lastMsg}`);
+    }
+    return response.text;
+  }, "run")
+});
+export {
+  generateSpec
+};
+//# sourceMappingURL=generate-spec.mjs.map

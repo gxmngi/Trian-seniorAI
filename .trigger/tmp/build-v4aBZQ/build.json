@@ -1,0 +1,138 @@
+{
+  "build": {
+  },
+  "cliPackageVersion": "4.5.4",
+  "config": {
+    "dirs": [
+      "./trigger"
+    ],
+    "project": "proj_uvhuysvhbssmxcudbvrj"
+  },
+  "configPath": "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\OneDrive\\Desktop\\GhostAI\\my-app\\trigger.config.mjs",
+  "contentHash": "b0dc57f92b188640ab6af73dd951d9ba",
+  "customConditions": [
+  ],
+  "deploy": {
+    "env": {
+    }
+  },
+  "environment": "dev",
+  "externals": [
+    {
+      "name": "import-in-the-middle",
+      "version": "3.0.1"
+    }
+  ],
+  "files": [
+    {
+      "entry": "trigger/design-agent-fallback.ts",
+      "out": "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\OneDrive\\Desktop\\GhostAI\\my-app\\trigger\\design-agent-fallback.mjs"
+    },
+    {
+      "entry": "trigger/design-agent-summary.ts",
+      "out": "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\OneDrive\\Desktop\\GhostAI\\my-app\\trigger\\design-agent-summary.mjs"
+    },
+    {
+      "entry": "trigger/design-agent.ts",
+      "out": "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\OneDrive\\Desktop\\GhostAI\\my-app\\trigger\\design-agent.mjs"
+    }
+  ],
+  "indexWorkerEntryPoint": "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\AppData\\Local\\npm-cache\\_npx\\f51a09bd0abf5f10\\node_modules\\trigger.dev\\dist\\esm\\entryPoints\\dev-index-worker.mjs",
+  "otelImportHook": {
+    "include": [
+    ]
+  },
+  "outputHashes": {
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\AppData\\Local\\npm-cache\\_npx\\f51a09bd0abf5f10\\node_modules\\trigger.dev\\dist\\esm\\entryPoints\\dev-index-worker.mjs": "71SUnz4BGR4",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\AppData\\Local\\npm-cache\\_npx\\f51a09bd0abf5f10\\node_modules\\trigger.dev\\dist\\esm\\entryPoints\\dev-index-worker.mjs.map": "iZBllHl5/fc",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\AppData\\Local\\npm-cache\\_npx\\f51a09bd0abf5f10\\node_modules\\trigger.dev\\dist\\esm\\entryPoints\\dev-run-worker.mjs": "BGIjw41+Zdk",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\AppData\\Local\\npm-cache\\_npx\\f51a09bd0abf5f10\\node_modules\\trigger.dev\\dist\\esm\\entryPoints\\dev-run-worker.mjs.map": "awIxSzSUZ9c",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\OneDrive\\Desktop\\GhostAI\\my-app\\trigger.config.mjs": "EtfrhNEwfZ0",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\OneDrive\\Desktop\\GhostAI\\my-app\\trigger.config.mjs.map": "qr+JZLxkTO4",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\OneDrive\\Desktop\\GhostAI\\my-app\\trigger\\design-agent-fallback.mjs": "Q1j5SaQBHSU",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\OneDrive\\Desktop\\GhostAI\\my-app\\trigger\\design-agent-fallback.mjs.map": "0b4tlwmkM3g",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\OneDrive\\Desktop\\GhostAI\\my-app\\trigger\\design-agent-summary.mjs": "gMlWYErjKmU",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\OneDrive\\Desktop\\GhostAI\\my-app\\trigger\\design-agent-summary.mjs.map": "0b4tlwmkM3g",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\OneDrive\\Desktop\\GhostAI\\my-app\\trigger\\design-agent.mjs": "/cIY7NQeDRY",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\OneDrive\\Desktop\\GhostAI\\my-app\\trigger\\design-agent.mjs.map": "/+G5TUStWM0",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\chunk-5A2LE32G.mjs": "iAHCaksTzjY",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\chunk-5A2LE32G.mjs.map": "jXG8+ZCdH20",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\chunk-75YXP75D.mjs": "m2Wwo7phElY",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\chunk-75YXP75D.mjs.map": "ZEdgTEjdhv0",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\chunk-BKPXB7OI.mjs": "QGzkJxIgh1U",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\chunk-BKPXB7OI.mjs.map": "SgRfK1Fj9i8",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\chunk-DVFLQKCG.mjs": "Iw68zzYledY",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\chunk-DVFLQKCG.mjs.map": "ImzL84nRBt8",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\chunk-MDVTGN5Y.mjs": "3MCeWdkbVCc",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\chunk-MDVTGN5Y.mjs.map": "h/u8OvkqahQ",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\chunk-QNXJQ3OP.mjs": "DQLp9bw1UxE",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\chunk-QNXJQ3OP.mjs.map": "weQAH0Pk/H8",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\chunk-R43LMS2W.mjs": "Am3XVkKEzKs",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\chunk-R43LMS2W.mjs.map": "tuOLJO1zLK4",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\chunk-XAA2SQ7L.mjs": "fVdfkx3hZCA",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\chunk-XAA2SQ7L.mjs.map": "9+NNh1CPwKw",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\chunk-ZHBVPOXT.mjs": "M0zKuiekTzY",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\chunk-ZHBVPOXT.mjs.map": "LMPzUuAiOIM",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\chunk-ZX3VPOMH.mjs": "dVOWubD4N5g",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\chunk-ZX3VPOMH.mjs.map": "B6gA8okD+KQ",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\crypto.node-FM7UGXJT.mjs": "z8aG5X8jtIE",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\crypto.node-FM7UGXJT.mjs.map": "0b4tlwmkM3g",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\crypto.node-XRVDZYDR.mjs": "GcFh3y+kCyo",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\crypto.node-XRVDZYDR.mjs.map": "VHU7akysEiw",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\esm-OO6GMXVG.mjs": "UDb0XVB9OhU",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\esm-OO6GMXVG.mjs.map": "CSvtQ8IwLEk",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\esm-RPN3OIEW.mjs": "ORgrtVZKFNs",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\esm-RPN3OIEW.mjs.map": "aSgryE2T3ck",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\getMachineId-bsd-XBV6PMBX.mjs": "qvd1KeJmRL4",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\getMachineId-bsd-XBV6PMBX.mjs.map": "jblj49KxPXM",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\getMachineId-darwin-KL4ADOTH.mjs": "v7iHEyfUvL0",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\getMachineId-darwin-KL4ADOTH.mjs.map": "nlmqFtc+AgI",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\getMachineId-linux-KINWGWBZ.mjs": "kGIgwuPy62o",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\getMachineId-linux-KINWGWBZ.mjs.map": "YY+vaOhQ7OI",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\getMachineId-unsupported-OIFYDRLV.mjs": "IwNi8BO30/I",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\getMachineId-unsupported-OIFYDRLV.mjs.map": "op5u7IogaUM",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\getMachineId-win-TLI2WXV6.mjs": "xnBA+RyXS0Q",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\getMachineId-win-TLI2WXV6.mjs.map": "zuAXhmRd3bQ",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\lib-7QCB54Z2.mjs": "Wo5/QGawPa8",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\lib-7QCB54Z2.mjs.map": "hxUUgf/hnII",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\s2s-62F3AGQA.mjs": "dm6YkydXfUI",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\s2s-62F3AGQA.mjs.map": "rCrasf02sh4",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\s2s-G4ZQNX2C.mjs": "lZIHh6FZ8YU",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\s2s-G4ZQNX2C.mjs.map": "BrWFGTrMb1s",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\token-MPOCCGQL.mjs": "Kp25wXJh2lk",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\token-MPOCCGQL.mjs.map": "Ork2QtNy8Ls",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\token-util-F53VDDPH.mjs": "ZfU6EWmKZSc",
+    "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\token-util-F53VDDPH.mjs.map": "0b4tlwmkM3g"
+  },
+  "outputPath": "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ",
+  "packageVersion": "4.5.4",
+  "runWorkerEntryPoint": "C:\\Users\\VICTUS 16\\OneDrive\\Desktop\\GhostAI\\my-app\\.trigger\\tmp\\build-v4aBZQ\\AppData\\Local\\npm-cache\\_npx\\f51a09bd0abf5f10\\node_modules\\trigger.dev\\dist\\esm\\entryPoints\\dev-run-worker.mjs",
+  "runtime": "node",
+  "sources": {
+    "package.json": {
+      "contentHash": "974524ab4111a5e1a92dbe105aa1e386",
+      "contents": "eJyNVMtu4yAU3ecrrKzL9SPOo1110e+IRODWYYLBAuwkqvrvIzCxaZJRZwfnHO778rXIsqWiLS7fsmV7JbTrli8eG9BYoZWHCyihGNHOiIE6L3amxwBZZkTn7PIt+1pkWZYtOQ7+lcKLy/z5ZYQPvZB8IsZbpKyjxk3UeIuUFCowaMNpkWXfwSvHDhVHxQQmrt+pIJaf8kbrRoaU9jUUUO5u5t4P1CLpRW6QsmB4X8ImZud5JtGcch/HHxvoLayhuud7EZ9Wa1hPnBQDHqRmJ5szKXAMfL+CqkocJCKlOf4imcP8RUM+pT7/lzDGfifrjLAtzSmnnUNDuiYmv3vUJLk95fHiUPnZIZQxlGjGgfEuCygntTOiadAAxyFGdtT6FIpewxrqp0LLT4+CAQ1DmR+kPgQ/FWwSP5erL03a8ArKEqqbgIqYSgGr6RWT1FoyUCOoYkho747aCHcN0gK2kCjtJXotZ5Rrh2oY3W2hnr3JngmOJB2/aj3X0A+eh8sNVFBOcGzH7kfPJhvlK1RzOcZact0+UvZIOVNxLcrVbMpRIc9CcdKiaW7NStbCnQlVoqUOCbM2xl1Dke7j8PF8JW+2mbV5p627GXje4OmXuJuBa4fJwiQLOTJzgQq455Javz6jbrVK6PjbePAOI0yrT9GQfzUqrMDjbiRF+Jm8i9NTQ7WaxydEF/7VQK5DnRfffwH2BnuZ"
+    },
+    "trigger.config.ts": {
+      "contentHash": "50dae8339dd7fc32750bc529c53f2393",
+      "contents": "eJxlUE1P20AQvftXPPkEUhSnROphubSCFAVRFbnhgCpkLd5ZZ4u9G82OXSjkv6N1HKSqp129j5k3z3W7wIJXGLLO00Xw1jXYw3LokH8Rdk1DPDc0FNE8FcMyP88yeh5NhqzuW/nHevKaAUWB+9Azdhx+Uy1gsjixofcGzuMlUUbH7WPQbHBX3iAwbiftTxJxvomnGY5+lT41xTgnP8w35frqalVWt+WP69XFpipX3/D2hjyJqzS7mmwVk81nhzibLcE4ploCv+DPlpgOOUTHJ1jXUoRmQhtqLWQyJHVU+JXPi6mD/GGaVfZeXEeox4N71uKCzwA+4Aq5D4bGzW1obmigViFvQzNCnX6+nDwKy8+LRQKZhB1FhdQeQF4/tmTW/pIGBavbSLORmBo/6sZpX0Wo20lUWM6OqPMb11HoZe2/R4VPi8OayfEf90FanQpSODsCrL0JnftLCsL9lGKfnv0s25+eZ+9zt7Yo"
+    },
+    "trigger/design-agent-fallback.ts": {
+      "contentHash": "43ffb5a699ba8a79f43cb4911681ef72",
+      "contents": "eJyNV1Fv4kYQfo+U/zDntpK54ygQQnImTkQvd23UNBddU/UBIWXxDvYqZtfaXZdwCf+98q6NDRjCE7t45ptvZr5hDD4nQmrQiwThK4njCQmehoFmgoMPL8dHAFqI+I7M0AOHUHonKDrwas5faGjPaUKJxuzRNdHEGWRujCep9uA7BkLSC6Ul42ETUv7ExZxfDo6PloPjo+OjQHClYZpH/i1OMZGMa+XBUEqyuDAUnnAxF5IqDyzOaGxCcEGxNISYTDAuTAbwxDgtb4GIhSyusLw0AEjDEmBUcLSfY8PxEnwYZaaGR5XJyMGPgZjNUAboNMFRkUjMpxbSfBFEGDyJVGdnISlKZ9y0IDnvkb0BrKg7w/sb+J1onJOF08wzcBTK/5gJkifh/NSb9vp46sCyuY3xj0IJf1sf+BWGqY72YrWnZ/0+1mPdS0HTQMNnokkswgJ2L96kd3rS/lSP9y2rA9xLEaBSjIf7gbBzfkpLoKJ8eddW5RttlK22AuPmTvNdSe5x2cpjvMbRMq6RDGGZNwmRG1kQpZjSxF7ieGZlQ/QBSvkmgwiVlkQLCcMccHctu6f9E5zUN+VPLuZxVlS4JQuUJQ4lmkyIWgM6C04I0nqgByFi+J5yXgWpIUODbr/bP6SxtVluEa42qt6jyuzAVmXJZ64JSzBm3Iw04SReaBao7DInEiORKjv9WiKZHdC3Gx6iMj+v9yXwnuHsnveCs/py/1shsKdj7fNPnUm3HmJYJATXREUTQSTdS6fTJyc9ckjnavOsUF4brloWNcZly8ZmeaBdXtOU2401SVlMiy12jYqF3O4y5SZSzBJdLICGt7HsRmOrAbuOuJAzErMfSMEH69nS4lbMUX4mCt3GoLSdFCsL/Jo11poyTl0XuZaLBviXYE6tQmgtJWbouvnVGJSxW4wHcUpRrZ43GnB1VRNl1Lb1KDgRm3RNkj7ku9MaBhKJRrPUb6gCHzjO4S+SXKzvwkuTcea2yrZlJN6aCvmFBJHrZtcmME7x2aSRT1RRzwwffHjMTh9/fjF28AE6y8dBbrjGpKVQG8iWUWozR2jkxnl+rSRVkftSCKnmRWUlsvxtZGULwKiXozbLL/O5qEQun6mIJOjZFMH3fWjDFTgRPpNQcAc8cCQGmvAwrsSFYnYMpDlXniVCsSyTNWIAzx50um34kMd6D91uu1k1WBQGrrX4BboNeA+dXtVsWTnPGdWRB51+1SBCFkbag/Pyy8JnaSu93G67mfSy7SMlUhngre2SJjJEbS7jnWKwHkYOG00PUbsVvKLb1s1i73KrRC7c2BTcd6tgr6/wroBogESdSp4nd5iezMvuG3p6zKqzLu+qgAwXb1WAyiPLzFsluS3JDdn98fBwbzRn19Rb/cvfsplU+q6YxZoqbkz3qD22U2DRsoJWIBpF9m9Wb+PvwRtFrITYLsMuhtsDV2O5Pn6btbKVssoocsr+Ahwf/Q/y7NRq"
+    },
+    "trigger/design-agent-summary.ts": {
+      "contentHash": "d8666bf7f09817b392af318183b1b287",
+      "contents": "eJyNU8tu2zAQvBvwPwwIHyhUVZqrHVlI0/aYAn2cDBehpY2thCIFisqjgv69ICXZcmoXPWlBzszujJb0UmpjcV+r1OZaYVPnMvtEVb5V3+uiEOaVTyeA1VreCCmrOa6NEa9XjT+6FQUlc1TW5Gq7QK7K2iZz1OpR6WeFdokYq3XoFO6FlBuRPv6gF7unhNNJgMZdp1pVFtbkRUHZlx6L+JgWuXseLBwhvwd/A++lAEO2Nuqtmqe108mhnfCeb3StbIX4YDIylNUpXX2jVJvsqp8Vqi42ZJZLzlNPCfeMAPFyaD6WdvmMhKMhMyQJWJ8SWww8p7k6ENeIwU+cJgk+BHiHy8WR2w7ZmQzRtC6mt1ady6+bB0ptRMqanCo+ziDoBKNKG8v5Kuw0r9chhvrj2lvtarzvAQOvECXno1l70noczzCQFBuSiEdBDfdAZKiUIiV+8Utk2UUIlhoSljIWnAQV+okcyn3PYQxV+W+P6qpzuLrMhPW4rjqHy0iS7fX+1fc/cbc6o5lDQemMTmM+Z9sek2qlyAfHht882oS7WeNzbzFrfMxtf4AlLpGAVQxzMNbe9Ru03xX3qPpNiSSprd0hjmO3bscvi91qpEI9iQrpTqgtVXgmQxBlKXPKIvb3W7PaCnm938LDW+v6eMIw/88uedgdDW2ec7vDrBmrtP3uHJ/6gb1Lb7Ji7RyzZjD1oHPFWQgWtJFz304nfwBYn4d8"
+    },
+    "trigger/design-agent.ts": {
+      "contentHash": "27b23732ec1132426ce2f4dc96ee7513",
+      "contents": "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"
+    },
+    "tsconfig.json": {
+      "contentHash": "02fc19ad21338c2ab820a70136310db4",
+      "contents": "eJxtUU1Lw0AQvedXLHMMbaJehJ4E6cFiEfRYimyyQ7t2v9id1EjJf5fdJNVET8O892b2vdlLxhjUVjup0L84ktYEWLFLxhhjQNwfkGDFYP12d3N7D4seV7KCFduBsBoWLJZCEnpeKYw9BoMtwX5Qc6Xs5yauJd/gAIaTdM+yejxifZox5GVNU8zYtZYzDMPWikbhkyH01k1JnajofDAzwV8xWNXEsFFRNUYo9KPER/KMm2DNdtzya7MMVnFC0XOzVB+hjRs98pqWsRmHTO1RoyGupgNONQeZTr5LABtO36fmOkVIAQa4S3U8reN0/PkvxuChzNPPFGUO+2wc6KI8mlCNwOtbae8SzbkQBYXRap6X+d/2mqSIQyV9OQzlTNpTAs//06nVFGKS5B+wvRoCYwW+6+Gm+6zLvgEbXbUJ"
+    }
+  },
+  "target": "dev"
+}
